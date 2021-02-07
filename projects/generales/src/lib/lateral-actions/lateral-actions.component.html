@@ -1,0 +1,10 @@
+<div class="botonCierre">
+  <button mat-icon-button (click)="cerrarComponente.emit()" [matTooltip]="'Cerrar opciones'">
+    <mat-icon class="text-light">close</mat-icon>
+  </button>
+</div>
+<div class="wrapperLateralActions bg-{{ backgroundColor }}">
+  <button mat-icon-button *ngFor="let action of actions" (click)="action.action()" [matTooltip]="action.tooltip">
+    <mat-icon class="text-{{ action.color }}">{{ action.icon }}</mat-icon>
+  </button>
+</div>

@@ -1,0 +1,22 @@
+@import "../styles/variables.scss";
+@import "../styles/mixins.scss";
+
+.container {
+  .zoomPhoto {
+    max-width: 400px;
+  }
+
+  .bottomBar {
+    img {
+      width: 64px;
+      height: 64px;
+    }
+    .seleccionado {
+      border: 2px solid $mainColor;
+      border-radius: 5px;
+    }
+    .noSeleccionado {
+      filter: grayscale(100%);
+    }
+  }
+}

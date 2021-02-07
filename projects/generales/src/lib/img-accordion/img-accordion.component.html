@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="zoomPhoto">
+    <img [src]="imagenes[selectedIndex]" alt="" srcset="" class="img-fluid" />
+  </div>
+  <div class="bottomBar">
+    <img
+      [src]="imagen"
+      alt=""
+      srcset=""
+      class="img-fluid" 
+      *ngFor="let imagen of imagenes; let i = index"
+      [ngClass]="{ seleccionado: selectedIndex === i, noSeleccionado: selectedIndex != i }"
+      (click)="selectedIndex = i"
+    />
+  </div>
+</div>

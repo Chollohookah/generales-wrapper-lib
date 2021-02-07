@@ -1,0 +1,11 @@
+<mat-form-field class="w-100">
+  <input matInput placeholder="Busqueda de etiqueta" (input)="filtroCambiado($event)" />
+</mat-form-field>
+<lib-inline-block-picker
+  [maxItems]="_allTagsViewerConfig.maxItems"
+  [maxPorPagina]="_allTagsViewerConfig.maxPorPagina"
+  [MAX_POR_PAGINA_POSIBILIDADES]="_allTagsViewerConfig.MAX_POR_PAGINA_POSIBILIDADES"
+  [chipsInput]="_allTagsViewerConfig.chipsInput"
+  (chipSelection)="chipSeleciconado($event)"
+></lib-inline-block-picker>
+<button (click)="aplicar()" mat-raised-button class="bg-primary w-100" *ngIf="selectedChips.length > 0">Aplicar {{ selectedChips.length }} etiquetas</button>

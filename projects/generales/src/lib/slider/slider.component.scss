@@ -1,0 +1,15 @@
+.ngx-slider .ngx-slider-pointer {
+  width: 20px !important;
+  height: 20px !important;
+  top: -8px !important;
+  outline: 0;
+  &:after {
+    content: none;
+    width: 0px !important;
+    height: 0px !important;
+  }
+}
+
+.ngx-slider .ngx-slider-bubble {
+  font-size: 12px !important;
+}

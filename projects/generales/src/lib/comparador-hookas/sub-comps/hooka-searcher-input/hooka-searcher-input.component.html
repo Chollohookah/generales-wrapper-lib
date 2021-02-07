@@ -1,0 +1,18 @@
+<div class="inputComparador" *ngIf="inputModel">
+  <mat-form-field appearance="fill" *ngIf="inputModel" class="w-100" (click)="clickInput()">
+    <mat-label *ngIf="inputModel.textoInputAntesDeClickear">{{ inputModel.textoInputAntesDeClickear }}</mat-label>
+    <input
+      *ngIf="inputModel.placeholderAlComenzarAEscribir"
+      matInput
+      placeholder="{{ inputModel.placeholderAlComenzarAEscribir }}"
+      #inputBusqueda
+    />
+  </mat-form-field>
+  <mat-icon
+    *ngFor="let iconBtn of soloIconosConCondicionPositiva([inputModel.iconoFiltro, inputModel.iconoClear])"
+    [ngClass]="iconBtn.customClass"
+    matSuffix
+    (click)="iconBtn.alHacerClick(_self)"
+    >{{ iconBtn.nombre }}</mat-icon
+  >
+</div>

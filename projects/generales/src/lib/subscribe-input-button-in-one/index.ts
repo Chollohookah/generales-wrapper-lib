@@ -1,0 +1,1 @@
+export * from './subscribe-input-button-in-one.component';

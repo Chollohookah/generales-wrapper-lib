@@ -1,0 +1,17 @@
+.wrapperLateralActions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  align-items: center;
+}
+button:focus {
+  outline: 0;
+}
+
+.botonCierre {
+  position: absolute;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}

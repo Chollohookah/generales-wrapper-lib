@@ -1,0 +1,31 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+.contenedorFiltrosAvanzados {
+  background-color: lighten($color: $ternaryColor, $amount: 50%);
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  width: 450px;
+  @include for-phone-only {
+    width: auto !important;
+  }
+  @include for-phone-only {
+    height: 80vh !important;
+    overflow: scroll !important;
+  }
+  height: auto;
+  right: 0;
+  border-radius: 0px 0px 0px 5px;
+  padding: 10px;
+  lib-selector-con-buscador {
+    margin: 1vh 0.5vh;
+  }
+  .checkboxes {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    mat-checkbox {
+      padding: 0px 5px 0px 5px;
+    }
+  }
+}

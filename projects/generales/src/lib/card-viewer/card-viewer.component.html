@@ -1,0 +1,63 @@
+<div [ngClass]="{ 'h-100': mostrandoOpciones }">
+  <mat-card class="cardViewer" *ngIf="_item" [ngClass]="{ 'p-0': mostrandoOpciones }">
+    <ng-container *ngIf="!mostrandoOpciones; else plantillaOpciones">
+      <mat-card-header>
+        <mat-card-title>{{ _item.titulo }}</mat-card-title>
+        <mat-card-subtitle>{{ _item.marca }}</mat-card-subtitle>
+        <div class="anuncioCachi bg-{{ anuncioHooka.color }} text-{{ anuncioHooka.textColor }}" *ngIf="hayAnuncio()">
+          {{ anuncioHooka.texto }}
+        </div>
+      </mat-card-header>
+
+      <mat-card-content class="contenidoCard">
+        <div (click)="mostrandoOpciones = true">
+          <img
+            loading="lazy"
+            src="{{ _item.imagen }}"
+            onerror="this.src = 'assets/no-camera.png';"
+            alt=""
+            srcset=""
+            class="imagenHooka img-fluid"
+          />
+        </div>
+      </mat-card-content>
+      <div class="imagenes" *ngIf="_item.fotos && _item.fotos.length > 0" (click)="abrirModalImagenes()">
+        <mat-icon>insert_photo</mat-icon> <span>{{ _item.fotos.length }}</span>
+      </div>
+      <div class="colores" *ngIf="_item.colores && _item.colores.length > 0">
+        <div
+          *ngFor="let color of _item.colores"
+          class="color"
+          [ngStyle]="{ 'background-color': color }"
+          [matTooltip]="color"
+          [cdkCopyToClipboard]="color"
+          (click)="copiadoAlPortapeles(color)"
+        ></div>
+      </div>
+
+      <div #precioNormal class="precioNormal" *ngIf="anuncioHooka == null || anuncioHooka.texto != 'OFERTA'">
+        <h2>
+          <span class="badge badge-primary">{{ _item.precioOriginal + _item.divisa }}</span>
+        </h2>
+      </div>
+      <div #precioRebajado class="precioRebajado" *ngIf="anuncioHooka != null && anuncioHooka.texto == 'OFERTA'">
+        <h2>
+          <span class="badge badge-primary">{{ _item.precioRebajado + _item.divisa }}</span>
+        </h2>
+        <span class="badge badge-danger">
+          <s>{{ _item.precioOriginal + _item.divisa }}</s>
+        </span>
+      </div>
+    </ng-container>
+    <ng-template #plantillaOpciones>
+      <div class="h-100">
+        <lib-lateral-actions
+          [backgroundColor]="'ternary'"
+          [actions]="posiblesAccionesConCachimbas"
+          (cerrarComponente)="mostrandoOpciones = false"
+        >
+        </lib-lateral-actions>
+      </div>
+    </ng-template>
+  </mat-card>
+</div>

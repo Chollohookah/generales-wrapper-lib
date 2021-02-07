@@ -1,0 +1,31 @@
+@import "../styles/variables.scss";
+@import "../styles/mixins.scss";
+.wrapperEsqueleto {
+  display: flex;
+  width: 100%;
+  @include for-phone-only{
+    flex-direction: column;
+    height: 85vh;
+  }
+  .imagenCompania{
+    max-height: 7vh;
+  }
+  justify-content: space-between;
+  .columnView {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .comprarBtn {
+    height: 100%;
+    width: 100%;
+    color: white;
+  }
+  .textoPrecio {
+    font-size: 2vh;
+  }
+  .discountPrice {
+    font-size: 1.5vh;
+    color: darkred;
+  }
+}

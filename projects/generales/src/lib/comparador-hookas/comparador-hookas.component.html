@@ -1,0 +1,80 @@
+<div class="comparadorHookas">
+  <lib-hooka-searcher-input
+    [inputModel]="inputModel"
+    (actualizarDesdeInput)="
+      obtainMetadataFromHookas($event.resultadoFiltraje);
+      cambioPaginaPaginador($event.confPaginador, $event.resultadoFiltraje)
+    "
+    (showOrderBox)="mostrarSortBox = !mostrarSortBox"
+  ></lib-hooka-searcher-input>
+  <div class="filtrosAvanzados">
+    <lib-filtros-avanzados
+      [setNewTradeMarks]="tradeMarksWithModelsSelectores"
+      [setNewChips]="tagsChips"
+      [setNewSlider]="priceSlider"
+      [setNewChecks]="checks"
+      (actualizarDesdeSelectores)="
+        cambioPaginaPaginador($event.confPaginador, $event.resultadoFiltraje)
+      "
+    ></lib-filtros-avanzados>
+  </div>
+  <div *ngIf="mostrarSortBox" class="seleccionOrdenacion">
+    <lib-inline-block-picker
+      [chipsInput]="sortBlockItem"
+      (chipSelection)="chipSortingSelected($event)"
+    ></lib-inline-block-picker>
+  </div>
+
+  <div class="cargaCachimbas mt-3">
+    <lib-cargando-cachimbas
+      *ngIf="!peticionCargaHookasTerminada"
+    ></lib-cargando-cachimbas>
+  </div>
+
+  <div *ngIf="peticionCargaHookasTerminada" class="wrapperCachimbasPaginador">
+    <ng-container *ngIf="hookaService.cachimbas.length > 0; else sinCachimbas">
+      <div class="displayRow my-2">
+        <div
+          *ngFor="let cachimba of hookaService.cachimbasSliced; let i = index"
+          class="wrapperCompCards"
+        >
+          <lib-card-viewer
+            class="cardItemHooka"
+            [index]="i"
+            [item]="cachimba"
+            (alertHappen)="alertHappen.emit($event)"
+          ></lib-card-viewer>
+        </div>
+      </div>
+      <div class="paginadorComp">
+        <mat-paginator
+          [length]="hookaService.cachimbas.length"
+          [pageSize]="hookaService.MAX_POR_PAGINA"
+          [pageSizeOptions]="hookaService.MAX_POR_PAGINA_POSIBILIDADES"
+          (page)="cambioPaginaPaginador($event)"
+        >
+        </mat-paginator>
+      </div>
+    </ng-container>
+    <ng-template #sinCachimbas>
+      <div class="mt-4 notFound">
+        <div class="row justify-content-center mb-3">
+          <img
+            src="assets/smoke-pipe.png"
+            alt=""
+            srcset=""
+            class="popeyeImg img-fluid"
+          />
+        </div>
+        <div class="row">
+          <div class="col text-center">
+            <h3>Tocará seguir fumando la pipa de Popeye</h3>
+            <h4>
+              No se han encontrado resultados con los filtros proporcionados 😯
+            </h4>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

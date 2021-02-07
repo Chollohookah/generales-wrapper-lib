@@ -3,5 +3,14 @@
   "dest": "../../dist/generales",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "tslib",
+    "@m0t0r/ngx-slider",
+    "animejs",
+    "lodash-es",
+    "material-icons",
+    "ngx-cookie-service",
+    "uuid"
+  ]
 }

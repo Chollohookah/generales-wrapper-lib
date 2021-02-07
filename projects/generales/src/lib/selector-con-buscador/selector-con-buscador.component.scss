@@ -1,0 +1,31 @@
+@import "../styles/variables.scss";
+
+.selectorPadre {
+  width: 100%;
+  padding: 5px 5px 0px 5px;
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  background-color: $secondaryColor;
+  .mat-form-field-wrapper {
+    margin-bottom: -18px;
+  }
+}
+
+.wrapperOpcion {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputLevelWrapper {
+  position: relative;
+  mat-form-field {
+    width: 100%;
+  }
+  .iconoEliminarSeleccionado {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    cursor: pointer;
+  }
+}

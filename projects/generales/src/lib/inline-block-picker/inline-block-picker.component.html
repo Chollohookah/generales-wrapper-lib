@@ -1,0 +1,27 @@
+<mat-chip-list [multiple]="true">
+  <ng-container *ngFor="let chipData of returnArrayListChips(); let i = index">
+    <mat-chip
+      *ngIf="i < maxItems"
+      class="text-white c-pointer {{ chipData.selected ? 'bg-primary' : 'bg-ternary' }}"
+      [ngClass]="chipData.customCss ? chipData.customCss : ''"
+      #chip
+      (click)="chipData.customClickEvent ? chipData.customClickEvent(chipData, chip) : emitirClick(chipData, chip)"
+    >
+      <i *ngIf="chipData.iconoA" class="fa {{ chipData.iconoA }}" aria-hidden="true"></i> {{ chipData.texto }}
+      <i *ngIf="chipData.iconoB" class="fa {{ chipData.iconoB }}" aria-hidden="true"></i>
+    </mat-chip>
+    <mat-chip class="bg-primary text-secondary c-pointer" *ngIf="i == maxItems" (click)="verTodas()"
+      ><mat-icon>visibility</mat-icon> Ver todas</mat-chip
+    >
+  </ng-container>
+</mat-chip-list>
+
+<div class="paginadorComp" *ngIf="maxItems > maxPorPagina">
+  <mat-paginator
+    [length]="_chipsInput.length"
+    [pageSize]="maxPorPagina"
+    [pageSizeOptions]="MAX_POR_PAGINA_POSIBILIDADES"
+    (page)="cambioPaginaPaginador($event)"
+  >
+  </mat-paginator>
+</div>

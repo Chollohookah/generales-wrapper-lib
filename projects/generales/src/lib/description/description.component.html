@@ -1,0 +1,39 @@
+  <div class="wrapperEsqueleto" *ngIf="hooka">
+    <div>
+      <lib-img-accordion [imagenes]="hooka.fotos && hooka.fotos.length > 0 ? hooka.fotos : [hooka.imagen]"></lib-img-accordion>
+    </div>
+    <div class="columnView mt-3 pb-3">
+      <div>
+        <img class="imagenCompania" [src]="hooka.logoCompany" alt="" srcset="" />
+        <h2 class="my-2">{{ hooka.titulo }}</h2>
+        <p *ngIf="hooka.shortDesc">{{ hooka.shortDesc }}</p>
+        <div class="text-right">
+          <ng-container *ngIf="hooka.precioOriginal && hooka.precioRebajado; else soloPrecio">
+            <s *ngIf="hooka.precioOriginal" class="discountPrice mr-2">{{ hooka.precioOriginal }}{{ hooka.divisa }}</s>
+            <span class="textoPrecio">{{ hooka.precioRebajado }}{{ hooka.divisa }}</span>
+          </ng-container>
+          <ng-template #soloPrecio>
+            <span class="textoPrecio">{{ hooka.precioOriginal }}{{ hooka.divisa }}</span>
+          </ng-template>
+        </div>
+        <div *ngIf="hooka.specs && hooka.specs.length > 0 && keys(hooka.specs[0]).length > 0">
+          <h2 class="mb-1">Caracteristicas</h2>
+          <mat-divider> </mat-divider>
+          <mat-list>
+            <ng-container *ngFor="let spec of hooka.specs">
+              <mat-list-item>
+                <mat-icon mat-list-icon>{{ getIconByKey(keys(spec)[0]) }}</mat-icon>
+                <div mat-line>{{ toUpperCaseFirst(keys(spec)[0]) }}</div>
+                <div mat-line>{{ toUpperCaseFirst(spec[keys(spec)[0]]) }}</div>
+              </mat-list-item>
+            </ng-container>
+          </mat-list>
+        </div>
+      </div>
+
+      <div>
+        <button mat-raised-button color="primary" class="comprarBtn" (click)="goLink()"><mat-icon>shopping_bag</mat-icon> Comprar</button>
+      </div>
+    </div>
+  </div>
+
