@@ -61,7 +61,6 @@ const declaredAndExported = [
   ImgAccordionComponent,
   DescriptionComponent,
   SubscribeInputButtonInOneComponent,
-  LoginComponent,
 ];
 
 @NgModule({
