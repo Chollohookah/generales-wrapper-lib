@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AnimationControllerService } from '../servicios/animation-controller.service';
-import { Animations } from '../../lib/animations/animations';
+import { Animations } from '../../animations/animations';
+import { AnimationControllerService } from '../../servicios/animation-controller.service';
 @Component({
   selector: 'lib-cargando-cachimbas',
   templateUrl: './cargando-cachimbas.component.html',

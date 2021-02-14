@@ -10,11 +10,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { cloneDeep } from 'lodash-es';
-import {
-  AllTagsViewerComponent,
-  InlineBlockerPickerConfig,
-} from '../../lib/comparador-hookas/sub-comps/all-tags-viewer/all-tags-viewer.component';
 import { ClaveValorModel } from '../comparador-hookas/interfaces/FiltrosAvanzadosModel';
+import { AllTagsViewerComponent, InlineBlockerPickerConfig } from '../comparador-hookas/sub-comps/all-tags-viewer/all-tags-viewer.component';
 import { EnvioHookasFiltradas } from '../comparador-hookas/sub-comps/hooka-searcher-input/interfaces/BasicPaginatorChangeModel';
 export interface InlineBlockPicker {
   id: string;

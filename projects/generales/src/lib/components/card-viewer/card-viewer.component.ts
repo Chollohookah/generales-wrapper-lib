@@ -1,15 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HookasWithSiteMetadata } from '../comparador-hookas/interfaces/RelationSiteHooka';
 import { PosibleActions } from '../lateral-actions/models/PosibleActions';
-import { AnimationControllerService } from '../servicios/animation-controller.service';
 import { AnunciosHookas } from './models/AnunciosHookas';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 import { MatDialog } from '@angular/material/dialog';
 import { ImgAccordionComponent } from '../img-accordion/img-accordion.component';
 import { DescriptionComponent } from '../description/description.component';
-import { SimpleAlert } from '../models/Alert';
-import { BasicAlertcomponent } from '../classes/BasicAlertComponent';
+import { BasicAlertcomponent } from '../../classes/BasicAlertComponent';
 @Component({
   selector: 'lib-card-viewer',
   templateUrl: './card-viewer.component.html',
@@ -100,7 +98,6 @@ export class CardViewerComponent extends BasicAlertcomponent implements OnInit {
   public mostrandoOpciones: boolean = false;
 
   constructor(
-    private animation: AnimationControllerService,
     private dialog: MatDialog,
     private cookieService: CookieService
   ) {

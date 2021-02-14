@@ -8,28 +8,22 @@ import {
   ChangeDetectorRef,
   Output,
 } from '@angular/core';
-import {
-  ComparadorHookasIconoConfig,
-  ComparadorHookasInputModel,
-} from './interfaces/ComparadorHooksInputModel';
+import { ComparadorHookasInputModel } from './interfaces/ComparadorHooksInputModel';
 import { Site, Hooka, Block } from './interfaces/ModeloHookasBack';
 import { HookasWithSiteMetadata } from './interfaces/RelationSiteHooka';
 import { cloneDeep } from 'lodash-es';
 import { PageEvent } from '@angular/material/paginator';
-import { HookaService } from './services/hooka-service.service';
-import { groupBy } from 'lodash-es';
 import {
   ChecksProps,
   ClaveValorModel,
   ConfiguracionFiltrosAvanzadosMarcas,
   FiltrosAvanzadosChipPicker,
 } from './interfaces/FiltrosAvanzadosModel';
-import { EventEmitter } from '@angular/core';
-import { FiltrosAplicadosObjModel } from './sub-comps/filtros-avanzados/filtros-avanzados.component';
 import { SliderComponentProps } from '../slider/slider.component';
 import { InlineBlockPicker } from '../inline-block-picker/inline-block-picker.component';
 import { EnvioHookasFiltradas } from './sub-comps/hooka-searcher-input/interfaces/BasicPaginatorChangeModel';
-import { BasicAlertcomponent } from '../classes';
+import { BasicAlertcomponent } from '../../classes/BasicAlertComponent';
+import { HookaService } from './services/hooka-service.service';
 export interface ComparadorHookasApi {
   protocol: string;
   host: string;

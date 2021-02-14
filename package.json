@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "heavy-metal":"ng build --prod generales && cd dist/generales && npm publish"
+    "heavy-metal": "ng build --prod generales && cd dist/generales && npm publish"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +25,10 @@
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3",
+    "bootstrap": "^4.5.2",
+    "bootstrap-material-design": "^4.1.1",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1",
     "generales": "file:./projects/generales"
   },
   "devDependencies": {

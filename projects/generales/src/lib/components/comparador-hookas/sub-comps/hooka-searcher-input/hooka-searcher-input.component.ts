@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { InlineWorker } from '../../classes/InlineWorker';
 import { ComparadorHookasIconoConfig, ComparadorHookasInputModel } from '../../interfaces/ComparadorHooksInputModel';
-import { HookasWithSiteMetadata } from '../../interfaces/RelationSiteHooka';
 import { HookaService } from '../../services/hooka-service.service';
 import { BasicPaginatorChangeModel, EnvioHookasFiltradas } from './interfaces/BasicPaginatorChangeModel';
 

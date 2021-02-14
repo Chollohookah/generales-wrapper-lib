@@ -1,7 +1,6 @@
-import { supportsPassiveEventListeners } from '@angular/cdk/platform';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BasicAlertcomponent } from '../classes';
+import { BasicAlertcomponent } from '../../classes/BasicAlertComponent';
 
 export interface ButtonActionFunction {
   function: Function;

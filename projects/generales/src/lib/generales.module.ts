@@ -32,8 +32,8 @@ import {
   SubscribeInputButtonInOneComponent,
   getSpanishPaginatorIntl,
   SliderComponent,
+  CardViewerComponent,
 } from '.';
-import { CardViewerComponent } from './card-viewer';
 import { GeneralesComponent } from './generales.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
@@ -43,9 +43,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CookieService } from 'ngx-cookie-service';
+import { LoginComponent } from './components/login/login.component';
 
 const declaredAndExported = [
   GeneralesComponent,
+  LoginComponent,
   ComparadorHookasComponent,
   FiltrosAvanzadosComponent,
   SelectorConBuscadorComponent,
@@ -83,7 +85,7 @@ const declaredAndExported = [
     MatDialogModule,
     MatPaginatorModule,
     NgxSliderModule,
-    ClipboardModule
+    ClipboardModule,
   ],
   exports: declaredAndExported,
   providers: [

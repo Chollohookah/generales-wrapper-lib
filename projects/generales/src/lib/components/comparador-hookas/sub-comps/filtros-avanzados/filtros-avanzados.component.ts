@@ -7,9 +7,7 @@ import {
   FiltrosAvanzadosChipPicker,
   ChecksProps,
 } from '../../interfaces/FiltrosAvanzadosModel';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { HookaService } from '../../services/hooka-service.service';
-import { cloneDeep } from 'lodash-es';
 import { EnvioHookasFiltradas } from '../hooka-searcher-input/interfaces/BasicPaginatorChangeModel';
 import { SliderComponentProps } from '../../../slider/slider.component';
 export interface FiltrosAplicadosObjModel {

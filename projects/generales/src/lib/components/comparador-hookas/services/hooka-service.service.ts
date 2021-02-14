@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { cloneDeep, groupBy } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { InlineBlockPicker } from '../../inline-block-picker/inline-block-picker.component';
-import { InlineWorker } from '../classes/InlineWorker';
 import {
   ChecksProps,
   ConfiguracionFiltrosAvanzadosMarcas,
   FiltrosAvanzadosChipPicker,
 } from '../interfaces/FiltrosAvanzadosModel';
-import { HookasWithSiteMetadata } from '../interfaces/RelationSiteHooka';
 import { FiltrosAplicadosObjModel } from '../sub-comps/filtros-avanzados/filtros-avanzados.component';
 import { EnvioHookasFiltradas } from '../sub-comps/hooka-searcher-input/interfaces/BasicPaginatorChangeModel';
 import { v4 as uuidv4 } from 'uuid';
-import { SliderComponentProps } from '../../slider/slider.component';
 import { Options, LabelType } from '@m0t0r/ngx-slider';
 import { CookieService } from 'ngx-cookie-service';
-import { flatten, isGoodTag } from '../../functions/functions';
+import { HookasWithSiteMetadata } from '../interfaces/RelationSiteHooka';
+import { InlineWorker } from '../classes/InlineWorker';
+import { isGoodTag } from '../../../functions/functions';
+import { SliderComponentProps } from '../../slider/slider.component';
 @Injectable({
   providedIn: 'root',
 })

@@ -1,5 +1,5 @@
-@import "../../../styles/variables.scss";
-@import "../../../styles/mixins.scss";
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/mixins.scss";
 .contenedorFiltrosAvanzados {
   background-color: lighten($color: $ternaryColor, $amount: 50%);
   height: 100%;

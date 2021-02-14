@@ -4,4 +4,5 @@ import { SimpleAlert } from '..';
 @Component({ template: '' })
 export class BasicAlertcomponent {
   @Output() alertHappen = new EventEmitter<SimpleAlert>();
+  constructor() {}
 }
