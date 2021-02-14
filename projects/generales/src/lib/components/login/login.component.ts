@@ -28,11 +28,6 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
   public acceder() {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.valid) {
-      this.alertHappen.emit({
-        title: 'Login correcto',
-        desc: '',
-        type: 'success',
-      });
       this.loginExitosoFront.emit({
         email: this.formGroup.get('correo').value,
         pass: this.formGroup.get('pass').value,
