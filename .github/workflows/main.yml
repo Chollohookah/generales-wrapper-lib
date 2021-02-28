@@ -16,6 +16,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@chollohookah'
       - run: npm install
-      - run: npm publish
+      - run: npm run heavy-metal
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
