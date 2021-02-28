@@ -1,5 +1,5 @@
 {
-  "name": "@tihomir22/generales-wrapper-lib",
+  "name": "@chollohookah/generales-wrapper-lib",
   "version": "0.0.11",
   "peerDependencies": {
     "@angular/animations": "~11.1.2",
