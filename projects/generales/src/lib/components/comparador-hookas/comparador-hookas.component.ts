@@ -116,7 +116,8 @@ export class ComparadorHookasComponent
       .get(
         `${this.APIcomms.protocol}://${
           this.APIcomms.host + ':' + this.APIcomms.port
-        }/blocks/latestBlock?filter=${encodeURIComponent(JSON.stringify({}))}`
+        }/blocks/latestBlock?filter=${encodeURIComponent(JSON.stringify({}))}`,
+        { headers: { typeItem: 'cachimba' } }
       )
       .subscribe(
         (blockData: Block) => {
