@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { cloneDeep, groupBy } from 'lodash-es';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { InlineBlockPicker } from '../../inline-block-picker/inline-block-picker.component';
 import {
   ChecksProps,
@@ -16,25 +16,31 @@ import { HookasWithSiteMetadata } from '../interfaces/RelationSiteHooka';
 import { InlineWorker } from '../classes/InlineWorker';
 import { isGoodTag } from '../../../functions/functions';
 import { SliderComponentProps } from '../../slider/slider.component';
+export type ActualItemTypes =
+  | 'accesorio'
+  | 'cachimba'
+  | 'carbon'
+  | 'cazoleta'
+  | 'esencias'
+  | 'manguera'
+  | 'melaza'
+  | 'sabor';
+export type tiposPropiedades =
+  | 'marca'
+  | 'modelo'
+  | 'inputValue'
+  | 'etiquetasSeleccionadas'
+  | 'precioMin'
+  | 'precioMax'
+  | 'ocultarAgotados'
+  | 'mostrarSoloOfertas'
+  | 'mostrarListaSeguimiento'
+  | 'ordenarPrecio';
 @Injectable({
   providedIn: 'root',
 })
 export class HookaService {
-  public setFilterPropertyValue(
-    property:
-      | 'marca'
-      | 'modelo'
-      | 'inputValue'
-      | 'etiquetasSeleccionadas'
-      | 'precioMin'
-      | 'precioMax'
-      | 'ocultarAgotados'
-      | 'mostrarSoloOfertas'
-      | 'mostrarListaSeguimiento'
-      | 'ordenarPrecio'
-      | any,
-    value: any
-  ) {
+  public setFilterPropertyValue(property: tiposPropiedades | any, value: any) {
     this.filtrosAplicados[property] = value as FiltrosAplicadosObjModel;
     this.filterValuesChanged.next(this.filtrosAplicados);
   }
@@ -65,6 +71,9 @@ export class HookaService {
   public MAX_POR_PAGINA_POSIBILIDADES = [5, 25, this.MAX_POR_PAGINA, 100];
   public refrescarFiltrosAvanzados: Subject<void> = new Subject();
   public filterValuesChanged: Subject<FiltrosAplicadosObjModel> = new Subject();
+  public changedTypeItemToLoad: BehaviorSubject<ActualItemTypes> = new BehaviorSubject(
+    null
+  );
   constructor(private cookieService: CookieService) {}
 
   public realizarFiltro(): Promise<EnvioHookasFiltradas> {

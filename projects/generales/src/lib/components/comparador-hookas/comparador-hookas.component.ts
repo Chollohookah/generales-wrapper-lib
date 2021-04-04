@@ -23,7 +23,10 @@ import { SliderComponentProps } from '../slider/slider.component';
 import { InlineBlockPicker } from '../inline-block-picker/inline-block-picker.component';
 import { EnvioHookasFiltradas } from './sub-comps/hooka-searcher-input/interfaces/BasicPaginatorChangeModel';
 import { BasicAlertcomponent } from '../../classes/BasicAlertComponent';
-import { HookaService } from './services/hooka-service.service';
+import {
+  ActualItemTypes,
+  HookaService,
+} from './services/hooka-service.service';
 export interface ComparadorHookasApi {
   protocol: string;
   host: string;
@@ -71,7 +74,9 @@ export class ComparadorHookasComponent
   }
 
   ngOnInit(): void {
-    this.cargarHookasGenerales();
+    this.hookaService.changedTypeItemToLoad.subscribe((data) => {
+      this.cargarHookasGenerales(data);
+    });
   }
 
   public async chipSortingSelected(data: ClaveValorModel) {
@@ -109,15 +114,15 @@ export class ComparadorHookasComponent
     this.changeDetectorRef.markForCheck();
   }
 
-  private cargarHookasGenerales(): void {
+  private cargarHookasGenerales(type: ActualItemTypes): void {
     this.peticionCargaHookasTerminada = false;
-
+    let tipo = type ? type : 'cachimba';
     this.http
       .get(
         `${this.APIcomms.protocol}://${
           this.APIcomms.host + ':' + this.APIcomms.port
         }/blocks/latestBlock?filter=${encodeURIComponent(JSON.stringify({}))}`,
-        { headers: { typeItem: 'cachimba' } }
+        { headers: { typeItem: tipo } }
       )
       .subscribe(
         (blockData: Block) => {
@@ -136,10 +141,7 @@ export class ComparadorHookasComponent
                   return entry;
                 })
                 .filter((filterEntry) => {
-                  return (
-                    !Number.isNaN(filterEntry.precioOriginal) &&
-                    filterEntry.precioOriginal > this.MININUM_PRICE_HOOKA
-                  );
+                  return !Number.isNaN(filterEntry.precioOriginal);
                 })
             );
             return prev;

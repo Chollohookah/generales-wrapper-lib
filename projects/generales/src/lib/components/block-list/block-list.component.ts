@@ -17,6 +17,5 @@ export class BlockListComponent implements OnInit {
 
   public emitSelected(selectHeaderItem: HeaderItems) {
     this.blockClicked.emit(selectHeaderItem);
-    console.log(selectHeaderItem);
   }
 }
