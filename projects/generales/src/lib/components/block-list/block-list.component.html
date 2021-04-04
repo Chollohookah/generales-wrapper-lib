@@ -3,6 +3,7 @@
     <div
       matRipple
       [matRippleCentered]="centered"
+      (click)="blockClicked.emit(block)"
       [ngClass]="{
         'blockItem-col': inSideNav == false,
         'blockItem-row': inSideNav

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { interval } from 'rxjs';
 import { HeaderItems } from '../header/header.component';
 
@@ -10,6 +10,7 @@ import { HeaderItems } from '../header/header.component';
 export class BlockListComponent implements OnInit {
   @Input() blocks: Array<HeaderItems> = [];
   @Input() inSideNav: boolean = false;
+  @Output() blockClicked = new EventEmitter<HeaderItems>();
   constructor() {}
 
   ngOnInit(): void {}

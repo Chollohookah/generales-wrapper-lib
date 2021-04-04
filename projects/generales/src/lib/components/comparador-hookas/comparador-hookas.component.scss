@@ -71,10 +71,10 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-evenly;
-    height: 70vh;
+    justify-content: space-between;
+    height: 57vh;
     @include for-phone-only {
-      height: 85vh;
+      height: 74vh;
     }
     overflow: auto;
     .wrapperCompCards {
