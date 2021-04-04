@@ -1,24 +1,66 @@
-<div [formGroup]="formularioBusqueda">
+<div [formGroup]="formularioBusqueda" #divToFocus>
   <div class="inputLevelWrapper">
     <mat-form-field appearance="fill" class="w-100">
-      <mat-label>{{ initialConfigObj && initialConfigObj.label ? initialConfigObj.label : "Sin nombre" }}</mat-label>
-      <mat-select formControlName="itemSeleccionado">
+      <mat-label>{{
+        initialConfigObj && initialConfigObj.label
+          ? initialConfigObj.label
+          : "Sin nombre"
+      }}</mat-label>
+
+      <mat-select
+        formControlName="itemSeleccionado"
+        #select
+        (openedChange)="opened($event)"
+      >
         <mat-form-field class="selectorPadre">
-          <input matInput placeholder="Busqueda de {{ initialConfigObj.label.toLowerCase() }}" formControlName="busqueda" />
+          <input
+            matInput
+            placeholder="Busqueda de {{ initialConfigObj.label.toLowerCase() }}"
+            formControlName="busqueda"
+          />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
 
         <mat-option *ngFor="let valor of arrayDatos" [value]="valor.valor">
-          <div class="wrapperOpcion">
-            <div class="divContenidoOpcion">
-              <span class="flag-icon flag-icon-au flag-icon-squared"></span>
-              <img src="{{ valor.bandera }}" *ngIf="valor.bandera" />
-              {{ valor.clave }}
+          <ng-container *ngIf="!valor.type; else hasType">
+            <div class="wrapperOpcion">
+              <div class="divContenidoOpcion">
+                {{ valor.clave }}
+              </div>
             </div>
-          </div>
+          </ng-container>
+          <ng-template #hasType>
+            <span [ngSwitch]="valor.type">
+              <ng-container *ngSwitchCase="'provider-select'">
+                <div class="wrapperProvider">
+                  <div class="divContenidoOpcion">
+                    <img
+                      [src]="valor.data.image"
+                      alt=""
+                      srcset=""
+                      onerror="this.src = 'assets/no-camera.png';"
+                      class="img-provider"
+                    />
+                    <div class="twoLines">
+                      <span class="nameProvider"> {{ valor.clave }}</span>
+                      <span class="numberUnits" *ngIf="selectAbierto"
+                        >{{ valor.data.numberItems }} unidades</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </span>
+          </ng-template>
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <div class="iconoEliminarSeleccionado" *ngIf="formularioBusqueda.value.itemSeleccionado" (click)="removeSelection()"><mat-icon class="text-danger">delete</mat-icon></div>
+    <div
+      class="iconoEliminarSeleccionado"
+      *ngIf="formularioBusqueda.value.itemSeleccionado"
+      (click)="removeSelection()"
+    >
+      <mat-icon class="text-danger">delete</mat-icon>
+    </div>
   </div>
 </div>

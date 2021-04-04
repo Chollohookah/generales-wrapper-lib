@@ -26,6 +26,7 @@
     "bootstrap-material-design": "^4.1.1",
     "generales": "file:./projects/generales",
     "jquery": "^3.5.1",
+    "lodash": "^4.17.21",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

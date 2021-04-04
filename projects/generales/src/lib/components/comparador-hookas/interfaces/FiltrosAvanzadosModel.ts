@@ -15,9 +15,16 @@ export interface ChecksProps {
   disabled: boolean;
 }
 
+export interface ProviderModel {
+  nombre: string;
+  value: string;
+  image: string;
+  numberItems: number;
+}
+
 export interface FiltrosAvanzadosSelectoresModel {
   marcas: Array<ConfiguracionFiltrosAvanzadosMarcas>;
-  origen: Array<ClaveValorBandera>;
+  provider: Array<ProviderModel>;
 }
 
 export interface FiltrosAvanzadosChipPicker {
@@ -45,6 +52,7 @@ export interface ClaveValorModel {
   clave: string;
   valor: any;
   data?: any;
+  type?: 'provider-select';
 }
 
 export interface ClaveValorBandera extends ClaveValorModel {

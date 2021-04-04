@@ -1,6 +1,5 @@
 @import "../../styles/variables.scss";
 
-
 .selectorPadre {
   width: 100%;
   padding: 5px 5px 0px 5px;
@@ -10,6 +9,32 @@
   background-color: $secondaryColor;
   .mat-form-field-wrapper {
     margin-bottom: -18px;
+  }
+}
+.wrapperProvider {
+  .divContenidoOpcion {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .img-provider {
+      max-width: 120px;
+      max-height: 32px;
+    }
+    .twoLines {
+      display: flex;
+      flex-direction: column;
+      .nameProvider {
+        //display: block;
+        line-height: 1;
+      }
+      .numberUnits {
+        //display: block;
+        line-height: 1;
+        font-size: 12px;
+        text-align: right;
+        font-weight: bolder;
+      }
+    }
   }
 }
 

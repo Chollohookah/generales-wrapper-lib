@@ -1,4 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  Input,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import {
   FiltrosAvanzadosModel,
   InitialConfigInputMaterial,
@@ -6,6 +13,7 @@ import {
   ConfiguracionFiltrosAvanzadosMarcas,
   FiltrosAvanzadosChipPicker,
   ChecksProps,
+  ProviderModel,
 } from '../../interfaces/FiltrosAvanzadosModel';
 import { HookaService } from '../../services/hooka-service.service';
 import { EnvioHookasFiltradas } from '../hooka-searcher-input/interfaces/BasicPaginatorChangeModel';
@@ -21,6 +29,7 @@ export interface FiltrosAplicadosObjModel {
   mostrarSoloOfertas: boolean;
   mostrarListaSeguimiento: boolean;
   ordenarPrecio: 'ASC' | 'DESC';
+  proveedor: string;
 }
 export interface SideEffectsOfEvent {
   keyId: string;
@@ -32,18 +41,39 @@ export interface ConfiguracionComponentes {
   datos: Array<ClaveValorModel>;
   configuracionInicial: InitialConfigInputMaterial;
 }
+
 @Component({
   selector: 'lib-filtros-avanzados',
   templateUrl: './filtros-avanzados.component.html',
   styleUrls: ['./filtros-avanzados.component.scss'],
 })
 export class FiltrosAvanzadosComponent implements OnInit {
-  @Input('setNewTradeMarks') set setNewTradeMarks(data: Array<ConfiguracionFiltrosAvanzadosMarcas>) {
+  @Input('setNewTradeMarks') set setNewTradeMarks(
+    data: Array<ConfiguracionFiltrosAvanzadosMarcas>
+  ) {
     if (data && data.length > 0) {
       this.configuracionFiltrosAvanzados.selectores.marcas = data;
-      this.configuracionesDeSelectores[this.INDICE_MARCA].datos = this.obtainMarks();
+      this.configuracionesDeSelectores[
+        this.INDICE_MARCA
+      ].datos = this.obtainMarks();
     }
   }
+  @Input('setNewProviders') set setNewProviders(data: Array<ProviderModel>) {
+    if (data) {
+      this.configuracionFiltrosAvanzados.selectores.provider = data;
+      this.configuracionesDeSelectores[
+        this.INDICE_PROVEEDORES
+      ].datos = data.map((entry) => {
+        return {
+          clave: entry.nombre,
+          valor: entry.value,
+          data: entry,
+          type: 'provider-select',
+        };
+      });
+    }
+  }
+
   @Input('setNewChips') set setNewChips(data: FiltrosAvanzadosChipPicker) {
     if (data) {
       this.configuracionFiltrosAvanzados.chipsPickers = data;
@@ -62,10 +92,21 @@ export class FiltrosAvanzadosComponent implements OnInit {
     }
   }
 
-  @Output() actualizarDesdeSelectores = new EventEmitter<EnvioHookasFiltradas>();
-  public configuracionFiltrosAvanzados: FiltrosAvanzadosModel;
+  @Output()
+  actualizarDesdeSelectores = new EventEmitter<EnvioHookasFiltradas>();
+  public configuracionFiltrosAvanzados: FiltrosAvanzadosModel = {
+    selectores: {
+      marcas: [],
+      provider: [],
+    },
+    chipsPickers: {
+      tags: [],
+    },
+    sliderPrecio: null,
+    checks: [],
+  };
   public INDICE_MARCA: number = 0;
-  public INDICE_MODELO: number = 1;
+  public INDICE_PROVEEDORES: number = 1;
   public INDICE_TAGS: number = 3;
   //Configuración selectores
   public configuracionesDeSelectores: Array<ConfiguracionComponentes> = [
@@ -75,19 +116,13 @@ export class FiltrosAvanzadosComponent implements OnInit {
       datos: [],
       configuracionInicial: this.obtainMarksConfig(),
     },
-    //Modelos
+    //Proveedores
     {
       type: 'selector',
       datos: [],
-      configuracionInicial: this.obtainModelsConfig(),
+      configuracionInicial: this.obtainProvidersConfig(),
     },
   ];
-
-  /* public sliderPrecios: SliderComponentProps = {
-    value: 0,
-    highValue: 100,
-    options: { floor: 0, ceil: 200 },
-  };*/
 
   //Almacenamiento de datos introducidos p or usuario y hooks
   private listaEfectosSecundarios: Array<SideEffectsOfEvent> = [];
@@ -96,49 +131,48 @@ export class FiltrosAvanzadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.listaEfectosSecundarios = [
-      {
+      /*{
         keyId: 'marca',
         callback: async (marca: string) => {
-          this.configuracionesDeSelectores[this.INDICE_MODELO].datos = this.generateModelsSelectorFromTradeMark(marca);
-          this.configuracionesDeSelectores[this.INDICE_MODELO].configuracionInicial.disabled = false;
+          this.configuracionesDeSelectores[this.INDICE_PROVEEDORES].datos = this.generateModelsSelectorFromTradeMark(marca);
+          this.configuracionesDeSelectores[this.INDICE_PROVEEDORES].configuracionInicial.disabled = false;
           this.hookaservice.setFilterPropertyValue('modelo', '');
           let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltro();
           this.actualizarDesdeSelectores.emit(res);
         },
-      },
+      },*/
     ];
 
-    this.configuracionFiltrosAvanzados = {
-      selectores: {
-        marcas: [],
-        origen: [],
-      },
-      chipsPickers: {
-        tags: [],
-      },
-      sliderPrecio: null,
-      checks: [],
-    };
-
-    this.configuracionesDeSelectores[this.INDICE_MARCA].datos = this.obtainMarks();
+    this.configuracionesDeSelectores[
+      this.INDICE_MARCA
+    ].datos = this.obtainMarks();
   }
 
   public async receiveChangedValue(claveValor: ClaveValorModel) {
-    if (this.hookaservice.filtrosAplicados[claveValor.clave] !== claveValor.valor) {
-      let busquedaEfectoSecundario = this.listaEfectosSecundarios.find((entry) => entry.keyId === claveValor.clave);
+    if (
+      this.hookaservice.filtrosAplicados[claveValor.clave] !== claveValor.valor
+    ) {
+      let busquedaEfectoSecundario = this.listaEfectosSecundarios.find(
+        (entry) => entry.keyId === claveValor.clave
+      );
       if (busquedaEfectoSecundario) {
         setTimeout(() => {
           busquedaEfectoSecundario.callback(claveValor.valor);
         }, 100);
       }
-      this.hookaservice.setFilterPropertyValue(claveValor.clave as any, claveValor.valor);
+      this.hookaservice.setFilterPropertyValue(
+        claveValor.clave as any,
+        claveValor.valor
+      );
       let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltro();
       this.actualizarDesdeSelectores.emit(res);
     }
   }
 
   public obtainOnlySelectors(): Array<ConfiguracionComponentes> {
-    return this.configuracionesDeSelectores.filter((entry) => entry.type == 'selector');
+    return this.configuracionesDeSelectores.filter(
+      (entry) => entry.type == 'selector'
+    );
   }
 
   public obtainMarks(): Array<ClaveValorModel> {
@@ -147,7 +181,9 @@ export class FiltrosAvanzadosComponent implements OnInit {
       .filter((entryFilter) => {
         function isValid(value: Array<string>) {
           return value.every((entryEvery) => {
-            return entryEvery != '' && entryEvery != null && entryEvery != undefined;
+            return (
+              entryEvery != '' && entryEvery != null && entryEvery != undefined
+            );
           });
         }
         return isValid([entryFilter.clave, entryFilter.valor]);
@@ -164,7 +200,9 @@ export class FiltrosAvanzadosComponent implements OnInit {
     return marcas;
   }
   private generateModelsSelectorFromTradeMark(trademark: string) {
-    let busquedaModelos = this.configuracionFiltrosAvanzados.selectores.marcas.find((entry) => entry.marca.valor === trademark);
+    let busquedaModelos = this.configuracionFiltrosAvanzados.selectores.marcas.find(
+      (entry) => entry.marca.valor === trademark
+    );
     if (busquedaModelos) {
       return busquedaModelos.modelos;
     }
@@ -179,10 +217,10 @@ export class FiltrosAvanzadosComponent implements OnInit {
     };
   }
 
-  private obtainModelsConfig(): InitialConfigInputMaterial {
+  private obtainProvidersConfig(): InitialConfigInputMaterial {
     return {
-      idKey: 'modelo',
-      label: 'Modelos',
+      idKey: 'proveedor',
+      label: 'Proveedor',
       disabled: true,
     };
   }

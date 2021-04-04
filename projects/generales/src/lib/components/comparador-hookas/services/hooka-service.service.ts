@@ -35,6 +35,7 @@ export type tiposPropiedades =
   | 'ocultarAgotados'
   | 'mostrarSoloOfertas'
   | 'mostrarListaSeguimiento'
+  | 'proveedor'
   | 'ordenarPrecio';
 @Injectable({
   providedIn: 'root',
@@ -48,6 +49,7 @@ export class HookaService {
     this._filtrosAplicados = valor;
     this.filterValuesChanged.next(this._filtrosAplicados);
   }
+
   public get filtrosAplicados() {
     return this._filtrosAplicados;
   }
@@ -62,6 +64,7 @@ export class HookaService {
     mostrarSoloOfertas: false,
     mostrarListaSeguimiento: false,
     ordenarPrecio: 'ASC',
+    proveedor: '',
   };
   public cachimbas: Array<HookasWithSiteMetadata> = [];
   public cachimbasSliced: Array<HookasWithSiteMetadata> = [];
@@ -139,6 +142,13 @@ export class HookaService {
             res = res.filter((entry) =>
               entry.modelo.toLowerCase().includes(busqueda.modelo.toLowerCase())
             );
+          }
+
+          //Filtro proveedor
+          if (busqueda.proveedor && busqueda.proveedor != '') {
+            res = res.filter((entry) => {
+              return entry.idCompany == busqueda.proveedor;
+            });
           }
 
           //Filtro etiquetas seleccionadas

@@ -18,6 +18,7 @@ import {
   ClaveValorModel,
   ConfiguracionFiltrosAvanzadosMarcas,
   FiltrosAvanzadosChipPicker,
+  ProviderModel,
 } from './interfaces/FiltrosAvanzadosModel';
 import { SliderComponentProps } from '../slider/slider.component';
 import { InlineBlockPicker } from '../inline-block-picker/inline-block-picker.component';
@@ -62,6 +63,7 @@ export class ComparadorHookasComponent
   public get peticionCargaHookasTerminada() {
     return this._peticionCargaHookasTerminada;
   }
+  public providers: Array<ProviderModel> = [];
 
   private _peticionCargaHookasTerminada: boolean = false;
 
@@ -128,13 +130,22 @@ export class ComparadorHookasComponent
         (blockData: Block) => {
           this.peticionCargaHookasTerminada = true;
           let data = blockData.minedIds;
+          this.providers = data.map((entry) => {
+            return {
+              nombre: entry.name,
+              value: entry.id,
+              image: entry.logo,
+              numberItems: entry.data.length,
+            };
+          });
           let res = data.reduce((prev, current, index) => {
             prev.push(
-              ...current.data
+              ...(current.data ? current.data : [])
                 .map((entry: HookasWithSiteMetadata) => {
                   entry = this.eliminarImpurezas(entry);
                   entry.logoCompany = current.logo;
                   entry.nameCompany = current.name;
+                  entry.idCompany = current.id;
                   entry.precioOriginal = Number(
                     (entry.precioOriginal as string).replace(/,/g, '.')
                   ) as any;
