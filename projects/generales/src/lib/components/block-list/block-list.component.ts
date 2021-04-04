@@ -14,4 +14,9 @@ export class BlockListComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  public emitSelected(selectHeaderItem: HeaderItems) {
+    this.blockClicked.emit(selectHeaderItem);
+    console.log(selectHeaderItem);
+  }
 }
