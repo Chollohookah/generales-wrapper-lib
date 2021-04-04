@@ -1,0 +1,19 @@
+<div class="blockItemsWrapper" [ngClass]="{ 'flex-column': inSideNav }">
+  <ng-container *ngFor="let block of blocks">
+    <div
+      matRipple
+      [matRippleCentered]="centered"
+      [ngClass]="{
+        'blockItem-col': inSideNav == false,
+        'blockItem-row': inSideNav
+      }"
+    >
+      <div class="containerImg d-sm-flex" [ngClass]="{ 'd-none': !inSideNav }">
+        <img src="assets/{{ block.assetName }}" alt="" srcset="" />
+      </div>
+      <span class="d-md-block" [ngClass]="{ 'd-none': !inSideNav }">{{
+        block.text
+      }}</span>
+    </div>
+  </ng-container>
+</div>

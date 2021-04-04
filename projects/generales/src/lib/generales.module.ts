@@ -44,7 +44,10 @@ import { MatListModule } from '@angular/material/list';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginComponent } from './components/login/login.component';
-
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { HeaderComponent } from './components/header/header.component';
+import { BlockListComponent } from './components/block-list/block-list.component';
 const declaredAndExported = [
   GeneralesComponent,
   LoginComponent,
@@ -61,6 +64,8 @@ const declaredAndExported = [
   ImgAccordionComponent,
   DescriptionComponent,
   SubscribeInputButtonInOneComponent,
+  HeaderComponent,
+  BlockListComponent,
 ];
 
 @NgModule({
@@ -85,9 +90,11 @@ const declaredAndExported = [
     MatDialogModule,
     MatPaginatorModule,
     NgxSliderModule,
+    MatSidenavModule,
     ClipboardModule,
+    MatToolbarModule,
   ],
-  exports: declaredAndExported,
+  exports: [...declaredAndExported],
   providers: [
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() },
     { provide: MAT_DIALOG_DATA, useValue: {} },

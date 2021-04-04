@@ -1,0 +1,20 @@
+<div class="shadow-sm">
+  <mat-toolbar>
+    <div class="d-sm-none">
+      <button mat-icon-button (click)="onToggleSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <div class="headerItemsWrapper">
+      <lib-block-list [blocks]="headerItems"></lib-block-list>
+
+      <div class="d-flex d-sm-none wrapperShowSidebar">
+        <img src="assets/brand.png" />
+        <div class="linesWrapperSidebar">
+          <h2>Chollohookah</h2>
+          <span>El comparador de cachimbas #1 en España.</span>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+</div>
