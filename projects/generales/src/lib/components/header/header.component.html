@@ -6,7 +6,10 @@
       </button>
     </div>
     <div class="headerItemsWrapper">
-      <lib-block-list [blocks]="headerItems"></lib-block-list>
+      <lib-block-list
+        [blocks]="headerItems"
+        (blockCliked)="blockCliked.emit($event)"
+      ></lib-block-list>
 
       <div class="d-flex d-sm-none wrapperShowSidebar">
         <img src="assets/brand.png" />

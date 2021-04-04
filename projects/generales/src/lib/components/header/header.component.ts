@@ -12,6 +12,7 @@ export interface HeaderItems {
 export class HeaderComponent implements OnInit {
   @Input() headerItems: Array<HeaderItems> = [];
   @Output() public sidenavToggle = new EventEmitter();
+  @Output() blockCliked = new EventEmitter<HeaderItems>();
 
   constructor() {}
 
@@ -20,6 +21,4 @@ export class HeaderComponent implements OnInit {
   public onToggleSidenav(): void {
     this.sidenavToggle.emit();
   }
-
- 
 }
