@@ -66,7 +66,7 @@ export class SelectorConBuscadorComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private hookaService: HookaService,
+    public hookaService: HookaService,
     private cd: ChangeDetectorRef
   ) {
     /*this.hookaService.filterValuesChanged.subscribe((data) => {

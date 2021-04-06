@@ -77,7 +77,14 @@ export class HookaService {
   public changedTypeItemToLoad: BehaviorSubject<ActualItemTypes> = new BehaviorSubject(
     null
   );
-  constructor(private cookieService: CookieService) {}
+  public latestValueType: ActualItemTypes = 'cachimba';
+  constructor(private cookieService: CookieService) {
+    this.changedTypeItemToLoad.subscribe((data) => {
+      if (data) {
+        this.latestValueType = data;
+      }
+    });
+  }
 
   public realizarFiltro(): Promise<EnvioHookasFiltradas> {
     return new Promise((resolve, reject) => {

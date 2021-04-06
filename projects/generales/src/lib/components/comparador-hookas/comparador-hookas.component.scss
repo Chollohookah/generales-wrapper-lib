@@ -36,6 +36,9 @@
     .mat-form-field-flex {
       background-color: $secondaryColor !important;
     }
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+      border-radius: 0px !important;
+    }
     mat-icon {
       position: absolute;
       right: 1vh;

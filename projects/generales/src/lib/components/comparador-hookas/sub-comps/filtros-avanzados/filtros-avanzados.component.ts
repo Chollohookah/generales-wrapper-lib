@@ -107,6 +107,8 @@ export class FiltrosAvanzadosComponent implements OnInit {
   };
   public INDICE_MARCA: number = 0;
   public INDICE_PROVEEDORES: number = 1;
+  public INDICE_MODELO: number = 2;
+
   public INDICE_TAGS: number = 3;
   //Configuración selectores
   public configuracionesDeSelectores: Array<ConfiguracionComponentes> = [
@@ -122,6 +124,12 @@ export class FiltrosAvanzadosComponent implements OnInit {
       datos: [],
       configuracionInicial: this.obtainProvidersConfig(),
     },
+    //Modelo
+    {
+      type: 'selector',
+      datos: [],
+      configuracionInicial: this.obtainModelConfig(),
+    },
   ];
 
   //Almacenamiento de datos introducidos p or usuario y hooks
@@ -131,16 +139,20 @@ export class FiltrosAvanzadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.listaEfectosSecundarios = [
-      /*{
+      {
         keyId: 'marca',
         callback: async (marca: string) => {
-          this.configuracionesDeSelectores[this.INDICE_PROVEEDORES].datos = this.generateModelsSelectorFromTradeMark(marca);
-          this.configuracionesDeSelectores[this.INDICE_PROVEEDORES].configuracionInicial.disabled = false;
+          this.configuracionesDeSelectores[
+            this.INDICE_MODELO
+          ].datos = this.generateModelsSelectorFromTradeMark(marca);
+          this.configuracionesDeSelectores[
+            this.INDICE_MODELO
+          ].configuracionInicial.disabled = false;
           this.hookaservice.setFilterPropertyValue('modelo', '');
           let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltro();
           this.actualizarDesdeSelectores.emit(res);
         },
-      },*/
+      },
     ];
 
     this.configuracionesDeSelectores[
@@ -221,6 +233,14 @@ export class FiltrosAvanzadosComponent implements OnInit {
     return {
       idKey: 'proveedor',
       label: 'Proveedor',
+      disabled: false,
+    };
+  }
+
+  private obtainModelConfig(): InitialConfigInputMaterial {
+    return {
+      idKey: 'modelo',
+      label: 'Modelo',
       disabled: true,
     };
   }

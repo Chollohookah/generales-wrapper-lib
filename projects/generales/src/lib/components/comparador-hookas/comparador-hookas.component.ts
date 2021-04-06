@@ -118,7 +118,7 @@ export class ComparadorHookasComponent
 
   private cargarHookasGenerales(type: ActualItemTypes): void {
     this.peticionCargaHookasTerminada = false;
-    let tipo = type ? type : 'cachimba';
+    let tipo = type ? type : this.hookaService.latestValueType;
     this.http
       .get(
         `${this.APIcomms.protocol}://${

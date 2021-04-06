@@ -6,6 +6,7 @@ import {
   AnimationControllerService,
 } from 'projects/generales/src/lib';
 import { cloneDeep } from 'lodash';
+import { FabButtonWithItems } from 'projects/generales/src/lib/components/fab-button-with-items/fab-button-with-items.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +14,14 @@ import { cloneDeep } from 'lodash';
 })
 export class AppComponent {
   title = 'generales-wrapper';
-
+  public itemArray: Array<FabButtonWithItems> = [
+    {
+      icono: 'home',
+      onClick: () => {
+        console.log('me jalaste');
+      },
+    },
+  ];
   constructor(private animationController: AnimationControllerService) {}
 
   public headerItems = [

@@ -48,6 +48,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from './components/header/header.component';
 import { BlockListComponent } from './components/block-list/block-list.component';
+import { FabButtonWithItemsComponent } from './components/fab-button-with-items/fab-button-with-items.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 const declaredAndExported = [
   GeneralesComponent,
   LoginComponent,
@@ -65,6 +67,7 @@ const declaredAndExported = [
   DescriptionComponent,
   SubscribeInputButtonInOneComponent,
   HeaderComponent,
+  FabButtonWithItemsComponent,
   BlockListComponent,
 ];
 
@@ -84,6 +87,7 @@ const declaredAndExported = [
     MatChipsModule,
     MatDividerModule,
     ScrollingModule,
+    BrowserAnimationsModule,
     MatCheckboxModule,
     MatCardModule,
     MatListModule,
