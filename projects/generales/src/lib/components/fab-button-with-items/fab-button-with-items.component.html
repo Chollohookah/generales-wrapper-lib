@@ -1,7 +1,26 @@
 <div class="fab-container">
-  <button mat-fab class="fab-toggler" (click)="onToggleFab()">
-    <i class="material-icons" [@fabToggler]="{ value: fabTogglerState }">add</i>
-  </button>
+  <ng-container [ngSwitch]="displayingType">
+    <button
+      mat-fab
+      class="fab-toggler"
+      (click)="onToggleFab()"
+      *ngSwitchCase="'icon'"
+    >
+      <i class="material-icons" [@fabToggler]="{ value: fabTogglerState }">{{
+        displayingResource
+      }}</i>
+    </button>
+
+    <div class="fab-toggler" (click)="onToggleFab()" *ngSwitchCase="'image'">
+      <img
+        src="{{ displayingResource }}"
+        alt=""
+        srcset=""
+        [@fabToggler]="{ value: fabTogglerState }"
+      />
+    </div>
+  </ng-container>
+
   <div [@speedDialStagger]="buttons.length">
     <button
       *ngFor="let btn of buttons"

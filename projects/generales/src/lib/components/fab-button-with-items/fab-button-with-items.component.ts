@@ -1,8 +1,17 @@
-import { trigger, state, style, transition, animate, query, stagger, keyframes } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+  query,
+  stagger,
+  keyframes,
+} from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
-export interface FabButtonWithItems{
-  icono:string;
-  onClick:Function;
+export interface FabButtonWithItems {
+  icono: string;
+  onClick: Function;
 }
 @Component({
   selector: 'lib-fab-button-with-items',
@@ -19,7 +28,7 @@ export interface FabButtonWithItems{
       state(
         'active',
         style({
-          transform: 'rotate(225deg)',
+          transform: 'rotate(90deg)',
         })
       ),
       transition('* <=> *', animate('200ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
@@ -54,9 +63,10 @@ export interface FabButtonWithItems{
     ]),
   ],
 })
-
 export class FabButtonWithItemsComponent implements OnInit {
-  @Input() fabButtons: Array<FabButtonWithItems>=[];
+  @Input() fabButtons: Array<FabButtonWithItems> = [];
+  @Input() displayingType: 'icon' | 'image' = 'icon';
+  @Input() displayingResource: string = 'add';
   public buttons: Array<any> = [];
   public fabTogglerState: 'active' | 'inactive' = 'inactive';
 

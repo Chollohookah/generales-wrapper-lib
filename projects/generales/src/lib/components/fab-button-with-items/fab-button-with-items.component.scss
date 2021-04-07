@@ -22,4 +22,8 @@
 .fab-toggler {
   float: right;
   z-index: 100;
+  img {
+    width: 64px;
+    height: 64px;
+  }
 }
