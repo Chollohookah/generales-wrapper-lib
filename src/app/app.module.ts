@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
+    BrowserAnimationsModule,
     GeneralesModule,
   ],
   providers: [],

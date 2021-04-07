@@ -87,7 +87,6 @@ const declaredAndExported = [
     MatChipsModule,
     MatDividerModule,
     ScrollingModule,
-    BrowserAnimationsModule,
     MatCheckboxModule,
     MatCardModule,
     MatListModule,
