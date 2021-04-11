@@ -50,7 +50,7 @@ export class AllTagsViewerComponent implements OnInit {
       'etiquetasSeleccionadas',
       this.copiaChips.filter((entry) => entry.selected).map((entry) => entry.texto.toLowerCase())
     );
-    let emision: EnvioHookasFiltradas = await this.hookaService.realizarFiltro();
+    let emision: EnvioHookasFiltradas = await this.hookaService.realizarFiltroNoWorker();
     this.onFilterApply.emit(emision);
   }
 }

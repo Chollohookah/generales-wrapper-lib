@@ -149,7 +149,7 @@ export class FiltrosAvanzadosComponent implements OnInit {
             this.INDICE_MODELO
           ].configuracionInicial.disabled = false;
           this.hookaservice.setFilterPropertyValue('modelo', '');
-          let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltro();
+          let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltroNoWorker();
           this.actualizarDesdeSelectores.emit(res);
         },
       },
@@ -176,7 +176,7 @@ export class FiltrosAvanzadosComponent implements OnInit {
         claveValor.clave as any,
         claveValor.valor
       );
-      let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltro();
+      let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltroNoWorker();
       this.actualizarDesdeSelectores.emit(res);
     }
   }

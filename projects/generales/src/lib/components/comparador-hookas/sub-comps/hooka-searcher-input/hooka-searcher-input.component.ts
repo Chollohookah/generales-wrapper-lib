@@ -47,7 +47,7 @@ export class HookaSearcherInputComponent implements OnInit {
       .subscribe(async (data: any) => {
         this.valorBusqueda = data.target.value;
         this.hookaService.setFilterPropertyValue('inputValue', data.target.value);
-        let emision: EnvioHookasFiltradas = await this.hookaService.realizarFiltro();
+        let emision: EnvioHookasFiltradas = await this.hookaService.realizarFiltroNoWorker();
         this.actualizarDesdeInput.emit(emision);
       });
   }

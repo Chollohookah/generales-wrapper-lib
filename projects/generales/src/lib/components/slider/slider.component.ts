@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Options, ChangeContext } from '@angular-slider/ngx-slider';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -21,7 +30,7 @@ export interface SliderComponentProps {
   selector: 'lib-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
-  encapsulation:ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SliderComponent implements OnInit {
   @Input() set config(config: SliderComponentProps) {
@@ -34,7 +43,10 @@ export class SliderComponent implements OnInit {
   public _config: SliderComponentProps;
   public isBrowser: boolean;
 
-  constructor(private hookaService: HookaService,@Inject(PLATFORM_ID) private platformId) {
+  constructor(
+    private hookaService: HookaService,
+    @Inject(PLATFORM_ID) private platformId
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
@@ -45,13 +57,12 @@ export class SliderComponent implements OnInit {
       .subscribe(async (event) => {
         this.hookaService.setFilterPropertyValue('precioMin', event.value);
         this.hookaService.setFilterPropertyValue('precioMax', event.highValue);
-        let emision: EnvioHookasFiltradas = await this.hookaService.realizarFiltro();
+        let emision: EnvioHookasFiltradas = await this.hookaService.realizarFiltroNoWorker();
         this.onSliderChange.emit(emision);
       });
   }
 
-  public onValueChange(event) {
-  }
+  public onValueChange(event) {}
 
   public async onUserChange(event: ChangeContext) {
     this.onUserChangeObservable.next(event);

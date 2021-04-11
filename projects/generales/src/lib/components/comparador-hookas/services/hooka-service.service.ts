@@ -345,4 +345,142 @@ export class HookaService {
       },
     ];
   }
+
+  public realizarFiltroNoWorker(): Promise<EnvioHookasFiltradas> {
+    return new Promise((resolve, reject) => {
+      const filterHookas = (
+        busqueda: FiltrosAplicadosObjModel,
+        todasCachimbas: Array<HookasWithSiteMetadata>,
+        objetoCookies: any
+      ) => {
+        return new Promise((resolve, reject) => {
+          let res = JSON.parse(JSON.stringify(todasCachimbas));
+          if (busqueda.inputValue && busqueda.inputValue != '') {
+            res = res.filter((hooka) => {
+              let tradeMarkAndModelConcat = (
+                hooka.marca + hooka.modelo
+              ).toLowerCase();
+              return tradeMarkAndModelConcat.includes(
+                busqueda.inputValue.toLowerCase()
+              );
+            });
+          }
+          //Filtro agotados
+          if (
+            busqueda.ocultarAgotados != undefined &&
+            busqueda.ocultarAgotados === true
+          ) {
+            res = res.filter((entry) => entry.agotado == false);
+          }
+          //Filtro solo ofertas
+          if (
+            busqueda.mostrarSoloOfertas != undefined &&
+            busqueda.mostrarSoloOfertas == true
+          ) {
+            res = res.filter((entry) => entry.precioRebajado != null);
+          }
+          if (
+            busqueda.mostrarListaSeguimiento != undefined &&
+            busqueda.mostrarListaSeguimiento == true
+          ) {
+            let cookiesKeys = Object.keys(objetoCookies);
+            res = res.filter((entryHooka) => {
+              let resBusqueda = cookiesKeys.find((entry) => {
+                if (
+                  entry.includes('savedHooka') &&
+                  objetoCookies[entry] === entryHooka.linkProducto
+                ) {
+                  return entry;
+                }
+                return null;
+              });
+              if (resBusqueda) return true;
+              return false;
+            });
+          }
+          //Filtro marca
+          if (busqueda.marca && busqueda.marca != '') {
+            res = res.filter((entry) =>
+              entry.marca.toLowerCase().includes(busqueda.marca.toLowerCase())
+            );
+          }
+          //Filtro modelo
+          if (busqueda.modelo && busqueda.modelo != '') {
+            res = res.filter((entry) =>
+              entry.modelo.toLowerCase().includes(busqueda.modelo.toLowerCase())
+            );
+          }
+
+          //Filtro proveedor
+          if (busqueda.proveedor && busqueda.proveedor != '') {
+            res = res.filter((entry) => {
+              return entry.idCompany == busqueda.proveedor;
+            });
+          }
+
+          //Filtro etiquetas seleccionadas
+          if (
+            busqueda.etiquetasSeleccionadas &&
+            busqueda.etiquetasSeleccionadas.length > 0
+          ) {
+            res = res.filter((entry) =>
+              entry.etiquetas.some((entry) =>
+                busqueda.etiquetasSeleccionadas
+                  .map((entry) => entry.toLowerCase())
+                  .includes(entry.toLowerCase())
+              )
+            );
+          }
+          //Filtro precios (rango)
+          if (busqueda.precioMax && busqueda.precioMin) {
+            res = res.filter((entry) => {
+              entry.precioOriginal = entry.precioOriginal as number;
+              if (entry.precioOriginal && Number(entry.precioOriginal)) {
+                let precioCachimba = Number(entry.precioOriginal);
+                let precioMin = Number(busqueda.precioMin);
+                let precioMax = Number(busqueda.precioMax);
+                return precioCachimba >= precioMin &&
+                  precioCachimba <= precioMax
+                  ? true
+                  : false;
+              }
+              return false;
+            });
+          }
+          //ORDENACIONES
+          if (busqueda.ordenarPrecio) {
+            if (busqueda.ordenarPrecio == 'ASC') {
+              res = res.sort((entry, entry2) => {
+                let precioActualA = entry.precioOriginal as number;
+                let precioActualB = entry2.precioOriginal as number;
+                return precioActualA - precioActualB;
+              });
+            } else if (busqueda.ordenarPrecio == 'DESC') {
+              res = res.sort((entry, entry2) => {
+                let precioActualB = entry2.precioOriginal as number;
+                let precioActualA = entry.precioOriginal as number;
+                return precioActualB - precioActualA;
+              });
+            }
+          }
+
+          resolve(res);
+        }) as Promise<Array<HookasWithSiteMetadata>>;
+      };
+
+      filterHookas(
+        this.filtrosAplicados,
+        cloneDeep(this.copiaCachimbas),
+        this.cookieService.getAll()
+      ).then((data) => {
+        resolve({
+          confPaginador: { pageIndex: 0, pageSize: this.MAX_POR_PAGINA },
+          resultadoFiltraje: data,
+        });
+        setTimeout(() => {
+          this.refrescarFiltrosAvanzados.next();
+        }, 0);
+      });
+    });
+  }
 }

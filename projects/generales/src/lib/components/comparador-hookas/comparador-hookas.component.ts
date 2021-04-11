@@ -91,7 +91,7 @@ export class ComparadorHookasComponent
       'ordenarPrecio',
       this.tipoOrdenacion
     );
-    let res: EnvioHookasFiltradas = await this.hookaService.realizarFiltro();
+    let res: EnvioHookasFiltradas = await this.hookaService.realizarFiltroNoWorker();
     this.cambioPaginaPaginador(res.confPaginador as any, res.resultadoFiltraje);
     this.changeDetectorRef.markForCheck();
   }
