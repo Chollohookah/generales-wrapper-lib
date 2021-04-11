@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
 import { Options, ChangeContext } from '@angular-slider/ngx-slider';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { HookaService } from '../comparador-hookas/services/hooka-service.service';
 import { EnvioHookasFiltradas } from '../comparador-hookas/sub-comps/hooka-searcher-input/interfaces/BasicPaginatorChangeModel';
+import { isPlatformBrowser } from '@angular/common';
 export interface SliderComponentProps {
   value: number;
   highValue: number;
@@ -31,8 +32,11 @@ export class SliderComponent implements OnInit {
   @Output() onSliderChange = new EventEmitter<EnvioHookasFiltradas>();
   private onUserChangeObservable: Subject<ChangeContext> = new Subject();
   public _config: SliderComponentProps;
+  public isBrowser: boolean;
 
-  constructor(private hookaService: HookaService) {}
+  constructor(private hookaService: HookaService,@Inject(PLATFORM_ID) private platformId) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     this.onUserChangeObservable

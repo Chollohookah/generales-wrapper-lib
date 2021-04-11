@@ -1,4 +1,4 @@
-<div *ngIf="_config">
+<div *ngIf="_config && isBrowser">
   <ngx-slider
     [(value)]="_config.value"
     [(highValue)]="_config.highValue"
