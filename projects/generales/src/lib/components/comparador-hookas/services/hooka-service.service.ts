@@ -10,7 +10,7 @@ import {
 import { FiltrosAplicadosObjModel } from '../sub-comps/filtros-avanzados/filtros-avanzados.component';
 import { EnvioHookasFiltradas } from '../sub-comps/hooka-searcher-input/interfaces/BasicPaginatorChangeModel';
 import { v4 as uuidv4 } from 'uuid';
-import { Options, LabelType } from '@m0t0r/ngx-slider';
+import { Options, LabelType } from '@angular-slider/ngx-slider';
 import { CookieService } from 'ngx-cookie-service';
 import { HookasWithSiteMetadata } from '../interfaces/RelationSiteHooka';
 import { InlineWorker } from '../classes/InlineWorker';

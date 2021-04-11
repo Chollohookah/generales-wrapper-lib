@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { Options, ChangeContext } from '@m0t0r/ngx-slider';
+import { Options, ChangeContext } from '@angular-slider/ngx-slider';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { HookaService } from '../comparador-hookas/services/hooka-service.service';

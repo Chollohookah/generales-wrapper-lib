@@ -6,7 +6,7 @@
   },
   "whitelistedNonPeerDependencies": [
     "tslib",
-    "@m0t0r/ngx-slider",
+    "@angular-slider/ngx-slider",
     "animejs",
     "lodash-es",
     "material-icons",
