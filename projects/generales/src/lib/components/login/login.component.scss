@@ -86,9 +86,10 @@
   }
 
   &-footer-nav {
-    a {
+    span {
       font-size: 14px;
       color: #919aa3;
+      cursor: pointer;
     }
   }
 }

@@ -10,7 +10,7 @@
             <div class="brand-wrapper">
               <img src="{{ logoImageURL }}" alt="logo" class="logo" />
             </div>
-            <p class="login-card-description">Accede a tu cuenta</p>
+            <p class="login-card-description">{{ obtainTitleLabel() }}</p>
             <form [formGroup]="formGroup">
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100">
@@ -21,9 +21,12 @@
                     placeholder="billgates@chollohookah.com"
                     formControlName="correo"
                   />
+                  <mat-error *ngIf="formGroup.get('pass').hasError('required')">
+                    El campo es requerido
+                  </mat-error>
                 </mat-form-field>
               </div>
-              <div class="form-group mb-4">
+              <div class="form-group mb-4" *ngIf="estadoForm != 'olvidada'">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Contraseña</mat-label>
                   <input
@@ -32,6 +35,31 @@
                     placeholder="************"
                     formControlName="pass"
                   />
+                  <mat-error *ngIf="formGroup.get('pass').hasError('required')">
+                    El campo es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div
+                class="form-group mb-4"
+                *ngIf="estadoForm == 'registro'"
+                @appearSlowly
+              >
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Repite contraseña</mat-label>
+                  <input
+                    matInput
+                    type="password"
+                    placeholder="************"
+                    formControlName="repeatPass"
+                    [errorStateMatcher]="customErrorMatcher"
+                  />
+                  <mat-error *ngIf="formGroup.hasError('notSame')">
+                    Las contraseñas no coinciden
+                  </mat-error>
+                  <mat-error *ngIf="formGroup.get('pass').hasError('required')">
+                    El campo es requerido
+                  </mat-error>
                 </mat-form-field>
               </div>
               <input
@@ -39,18 +67,41 @@
                 id="login"
                 class="btn btn-block login-btn mb-4"
                 type="button"
-                value="Acceder"
+                [value]="obtainLabelButton()"
                 (click)="acceder()"
               />
             </form>
-            <a href="#!" class="forgot-password-link">Contraseña olvidada?</a>
-            <p class="login-card-footer-text">
+            <a
+              href="#!"
+              class="forgot-password-link"
+              *ngIf="estadoForm != 'olvidada'"
+              (click)="estadoForm = 'olvidada'"
+              >Contraseña olvidada?</a
+            >
+
+            <p
+              class="login-card-footer-text"
+              (click)="estadoForm = 'registro'"
+              *ngIf="estadoForm == 'login'"
+            >
               No tienes una cuenta?
               <a href="#!" class="text-reset">Registrare aqui</a>
             </p>
+
+            <p
+              class="login-card-footer-text"
+              (click)="estadoForm = 'login'"
+              *ngIf="estadoForm == 'registro'"
+            >
+              Ya tienes una cuenta?
+              <a href="#!" class="text-reset">Accede con ella</a>
+            </p>
+
             <nav class="login-card-footer-nav">
-              <a href="#!" class="mr-3">Terminos de uso.</a>
-              <a href="#!">Politica de privacidad.</a>
+              <span class="mr-3" (click)="openTermsUse()"
+                >Terminos de uso.</span
+              >
+              <span (click)="openPrivacyPolicy()">Politica de privacidad.</span>
             </nav>
           </div>
         </div>

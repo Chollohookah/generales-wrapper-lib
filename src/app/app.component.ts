@@ -4,9 +4,15 @@ import {
   HookaSearcherInputComponent,
   ComparadorHookasApi,
   AnimationControllerService,
+  LoginComponent,
 } from 'projects/generales/src/lib';
 import { cloneDeep } from 'lodash';
 import { FabButtonWithItems } from 'projects/generales/src/lib/components/fab-button-with-items/fab-button-with-items.component';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  GenericDialog,
+  GenericDialogComponent,
+} from 'projects/generales/src/lib/components/generic-dialog/generic-dialog.component';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,7 +28,10 @@ export class AppComponent {
       },
     },
   ];
-  constructor(private animationController: AnimationControllerService) {}
+  constructor(
+    private animationController: AnimationControllerService,
+    private matDialog: MatDialog
+  ) {}
 
   public headerItems = [
     {
@@ -66,6 +75,17 @@ export class AppComponent {
       linkPath: 'sabor',
     },
   ];
+
+  public openDynamic() {
+    this.matDialog.open(GenericDialogComponent, {
+      width: '1200px',
+      data: {
+        title: 'Dembow',
+        component: LoginComponent,
+        actionButtons: [],
+      } as GenericDialog,
+    });
+  }
 
   public modeloInputComparador: ComparadorHookasInputModel = {
     textoInputAntesDeClickear: 'Busca por marca,modelo,nombres...',

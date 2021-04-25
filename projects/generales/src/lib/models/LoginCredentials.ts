@@ -1,4 +1,7 @@
-export interface LoginCredentials {
-    email: string;
-    pass: string;
-  }
+export interface LoginCredentials extends RecoverCredentials {
+  pass: string;
+}
+
+export interface RecoverCredentials {
+  email: string;
+}

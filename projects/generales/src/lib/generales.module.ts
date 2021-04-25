@@ -50,9 +50,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { BlockListComponent } from './components/block-list/block-list.component';
 import { FabButtonWithItemsComponent } from './components/fab-button-with-items/fab-button-with-items.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PrivacyTermsComponent } from './components/privacy-terms/privacy-terms.component';
+import { TermsUseComponent } from './components/terms-use/terms-use.component';
+import { GenericDialogComponent } from './components/generic-dialog/generic-dialog.component';
 const declaredAndExported = [
   GeneralesComponent,
   LoginComponent,
+  GenericDialogComponent,
   ComparadorHookasComponent,
   FiltrosAvanzadosComponent,
   SelectorConBuscadorComponent,
@@ -69,6 +73,8 @@ const declaredAndExported = [
   HeaderComponent,
   FabButtonWithItemsComponent,
   BlockListComponent,
+  PrivacyTermsComponent,
+  TermsUseComponent,
 ];
 
 @NgModule({

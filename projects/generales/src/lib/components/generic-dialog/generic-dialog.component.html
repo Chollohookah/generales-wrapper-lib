@@ -1,0 +1,19 @@
+<div>
+  <h1 mat-dialog-title *ngIf="genericDialogData && genericDialogData.title">
+    {{ genericDialogData.title }}
+  </h1>
+  <div mat-dialog-content>
+    <div #injectHere></div>
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-end">
+    <button
+      mat-button
+      [ngClass]="genericDialogActionButton.class"
+      (click)="genericDialogActionButton.action()"
+      *ngFor="let genericDialogActionButton of genericDialogData.actionButtons"
+    >
+      {{ genericDialogActionButton.label }}
+    </button>
+    <button mat-button mat-dialog-close>Cerrar</button>
+  </div>
+</div>
