@@ -1,5 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BasicAlertcomponent } from '../../classes/BasicAlertComponent';
@@ -38,7 +45,9 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
     data: 'login' | 'registro' | 'olvidada' | 'seteandoNuevaPass'
   ) {
     if (data) {
+      console.log(data);
       this._estadoForm = data;
+      this.cd.detectChanges();
     }
   }
   public get estadoForm() {
@@ -52,7 +61,11 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
   @Output() registroExitosoFront = new EventEmitter<LoginCredentials>();
   @Output() recuperarExitoso = new EventEmitter<RecoverCredentials>();
   @Output() seteoNuevaContrasenyaExitoso = new EventEmitter<LoginCredentials>();
-  constructor(private fb: FormBuilder, private matDialog: MatDialog) {
+  constructor(
+    private fb: FormBuilder,
+    private matDialog: MatDialog,
+    private cd: ChangeDetectorRef
+  ) {
     super();
     this.formGroup = this.fb.group(
       {
