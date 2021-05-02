@@ -32,8 +32,9 @@ import { TermsUseComponent } from '../terms-use/terms-use.component';
 export class LoginComponent extends BasicAlertcomponent implements OnInit {
   @Input() leftImageURL: string;
   @Input() logoImageURL: string;
+
   public formGroup: FormGroup;
-  public estadoForm: 'login' | 'registro' | 'olvidada' | 'seteandoNuevaPass' =
+  @Input() estadoForm: 'login' | 'registro' | 'olvidada' | 'seteandoNuevaPass' =
     'login';
   public customErrorMatcher: MyErrorStateMatcher = new MyErrorStateMatcher();
   @Output() loginExitosoFront = new EventEmitter<LoginCredentials>();
