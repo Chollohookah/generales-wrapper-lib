@@ -34,8 +34,19 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
   @Input() logoImageURL: string;
 
   public formGroup: FormGroup;
-  @Input() estadoForm: 'login' | 'registro' | 'olvidada' | 'seteandoNuevaPass' =
+  @Input() public set estadoForm(
+    data: 'login' | 'registro' | 'olvidada' | 'seteandoNuevaPass'
+  ) {
+    if (data) {
+      this._estadoForm = data;
+    }
+  }
+  public get estadoForm() {
+    return this._estadoForm;
+  }
+  private _estadoForm: 'login' | 'registro' | 'olvidada' | 'seteandoNuevaPass' =
     'login';
+
   public customErrorMatcher: MyErrorStateMatcher = new MyErrorStateMatcher();
   @Output() loginExitosoFront = new EventEmitter<LoginCredentials>();
   @Output() registroExitosoFront = new EventEmitter<LoginCredentials>();
@@ -125,7 +136,7 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
   }
 
   public acceder() {
-    switch (this.estadoForm) {
+    switch (this._estadoForm) {
       case 'login':
         this.accederPorLogin();
         break;
@@ -168,7 +179,7 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
   }
 
   public obtainLabelButton() {
-    switch (this.estadoForm) {
+    switch (this._estadoForm) {
       case 'registro':
         return 'Registrarse';
       case 'login':
@@ -183,7 +194,7 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
   }
 
   public obtainTitleLabel() {
-    switch (this.estadoForm) {
+    switch (this._estadoForm) {
       case 'registro':
         return 'Registra su cuenta';
       case 'login':
