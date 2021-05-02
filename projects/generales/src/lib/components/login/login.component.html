@@ -11,7 +11,7 @@
               <img src="{{ logoImageURL }}" alt="logo" class="logo" />
             </div>
             <p class="login-card-description">{{ obtainTitleLabel() }}</p>
-            <form [formGroup]="formGroup">
+            <form [formGroup]="formGroup" (keydown)="keyDownFunction($event)">
               <div class="form-group">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Correo electronico</mat-label>
@@ -45,6 +45,7 @@
                 *ngIf="estadoForm == 'registro'"
                 @appearSlowly
               >
+
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Repite contraseña</mat-label>
                   <input
@@ -61,6 +62,21 @@
                     El campo es requerido
                   </mat-error>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Nombre</mat-label>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Elon Musk"
+                    formControlName="name"
+                    [errorStateMatcher]="customErrorMatcher"
+                  />
+                  <mat-error *ngIf="formGroup.get('name').hasError('required')">
+                    El campo es requerido
+                  </mat-error>
+                </mat-form-field>
+
               </div>
               <input
                 name="login"

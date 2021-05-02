@@ -48,6 +48,7 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
         correo: ['', Validators.required],
         pass: ['', Validators.required],
         repeatPass: ['', Validators.required],
+        name: ['', Validators.required],
       },
       { validators: CustomValidators.checkPasswords }
     );
@@ -80,6 +81,7 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
       this.registroExitosoFront.emit({
         email: this.formGroup.get('correo').value,
         pass: this.formGroup.get('pass').value,
+        name: this.formGroup.get('name').value,
       });
     } else {
       this.alertHappen.emit({
@@ -192,6 +194,12 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
         return 'Confirmar nueva contraseña';
       default:
         return 'Error';
+    }
+  }
+
+  public keyDownFunction(event) {
+    if (event.keyCode === 13) {
+      this.acceder();
     }
   }
 }
