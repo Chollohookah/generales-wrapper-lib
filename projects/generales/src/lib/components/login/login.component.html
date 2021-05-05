@@ -12,7 +12,7 @@
             </div>
             <p class="login-card-description">{{ obtainTitleLabel() }}</p>
             <form [formGroup]="formGroup" (keydown)="keyDownFunction($event)">
-              <div class="form-group">
+              <div *ngIf="estadoForm != 'seteandoNuevaPass'">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Correo electronico</mat-label>
                   <input
@@ -26,7 +26,7 @@
                   </mat-error>
                 </mat-form-field>
               </div>
-              <div class="form-group mb-4" *ngIf="estadoForm != 'olvidada'">
+              <div *ngIf="estadoForm != 'olvidada'">
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Contraseña</mat-label>
                   <input
@@ -41,11 +41,11 @@
                 </mat-form-field>
               </div>
               <div
-                class="form-group mb-4"
-                *ngIf="estadoForm == 'registro'"
+                *ngIf="
+                  estadoForm == 'registro' || estadoForm == 'seteandoNuevaPass'
+                "
                 @appearSlowly
               >
-
                 <mat-form-field appearance="outline" class="w-100">
                   <mat-label>Repite contraseña</mat-label>
                   <input
@@ -63,7 +63,11 @@
                   </mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="w-100">
+                <mat-form-field
+                  appearance="outline"
+                  class="w-100"
+                  *ngIf="estadoForm != 'seteandoNuevaPass'"
+                >
                   <mat-label>Nombre</mat-label>
                   <input
                     matInput
@@ -76,7 +80,6 @@
                     El campo es requerido
                   </mat-error>
                 </mat-form-field>
-
               </div>
               <input
                 name="login"
@@ -87,37 +90,42 @@
                 (click)="acceder()"
               />
             </form>
-            <p
-              class="forgot-password-link pointer"
-              *ngIf="estadoForm != 'olvidada'"
-              (click)="estadoForm = 'olvidada'"
-              >Contraseña olvidada?</p
-            >
-
-            <p
-              class="login-card-footer-text"
-              (click)="estadoForm = 'registro'"
-              *ngIf="estadoForm == 'login'"
-            >
-              No tienes una cuenta?
-              <a href="#!" class="text-reset">Registrare aqui</a>
-            </p>
-
-            <p
-              class="login-card-footer-text"
-              (click)="estadoForm = 'login'"
-              *ngIf="estadoForm == 'registro'"
-            >
-              Ya tienes una cuenta?
-              <a href="#!" class="text-reset">Accede con ella</a>
-            </p>
-
-            <nav class="login-card-footer-nav">
-              <span class="mr-3" (click)="openTermsUse()"
-                >Terminos de uso.</span
+            <ng-container *ngIf="estadoForm != 'seteandoNuevaPass'">
+              <p
+                class="forgot-password-link pointer"
+                *ngIf="estadoForm != 'olvidada'"
+                (click)="estadoForm = 'olvidada'"
               >
-              <span (click)="openPrivacyPolicy()">Politica de privacidad.</span>
-            </nav>
+                Contraseña olvidada?
+              </p>
+
+              <p
+                class="login-card-footer-text"
+                (click)="estadoForm = 'registro'"
+                *ngIf="estadoForm == 'login'"
+              >
+                No tienes una cuenta?
+                <a href="#!" class="text-reset">Registrare aqui</a>
+              </p>
+
+              <p
+                class="login-card-footer-text"
+                (click)="estadoForm = 'login'"
+                *ngIf="estadoForm == 'registro' || estadoForm == 'olvidada'"
+              >
+                Ya tienes una cuenta?
+                <a href="#!" class="text-reset">Accede con ella</a>
+              </p>
+
+              <nav class="login-card-footer-nav">
+                <span class="mr-3" (click)="openTermsUse()"
+                  >Terminos de uso.</span
+                >
+                <span (click)="openPrivacyPolicy()"
+                  >Politica de privacidad.</span
+                >
+              </nav>
+            </ng-container>
           </div>
         </div>
       </div>

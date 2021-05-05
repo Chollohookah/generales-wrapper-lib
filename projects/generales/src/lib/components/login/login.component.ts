@@ -45,7 +45,6 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
     data: 'login' | 'registro' | 'olvidada' | 'seteandoNuevaPass'
   ) {
     if (data) {
-      console.log(data);
       this._estadoForm = data;
       this.cd.detectChanges();
     }
@@ -53,14 +52,18 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
   public get estadoForm() {
     return this._estadoForm;
   }
-  private _estadoForm: 'login' | 'registro' | 'olvidada' | 'seteandoNuevaPass' =
-    'login';
+
+  private _estadoForm:
+    | 'login'
+    | 'registro'
+    | 'olvidada'
+    | 'seteandoNuevaPass' = null;
 
   public customErrorMatcher: MyErrorStateMatcher = new MyErrorStateMatcher();
   @Output() loginExitosoFront = new EventEmitter<LoginCredentials>();
   @Output() registroExitosoFront = new EventEmitter<LoginCredentials>();
   @Output() recuperarExitoso = new EventEmitter<RecoverCredentials>();
-  @Output() seteoNuevaContrasenyaExitoso = new EventEmitter<LoginCredentials>();
+  @Output() seteoNuevaContrasenyaExitoso = new EventEmitter<string>();
   constructor(
     private fb: FormBuilder,
     private matDialog: MatDialog,
@@ -132,13 +135,10 @@ export class LoginComponent extends BasicAlertcomponent implements OnInit {
   private setearNuevaContrasenya() {
     this.formGroup.markAllAsTouched();
     if (
-      this.formGroup.get('correo').valid &&
+      this.formGroup.get('repeatPass').valid &&
       this.formGroup.get('pass').valid
     ) {
-      this.registroExitosoFront.emit({
-        email: this.formGroup.get('correo').value,
-        pass: this.formGroup.get('pass').value,
-      });
+      this.seteoNuevaContrasenyaExitoso.emit(this.formGroup.get('pass').value);
     } else {
       this.alertHappen.emit({
         title: 'Datos incorrectos',

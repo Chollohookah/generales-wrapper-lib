@@ -35,9 +35,7 @@ export class AppComponent {
     private animationController: AnimationControllerService,
     private matDialog: MatDialog
   ) {
-    setTimeout(() => {
-      this.actualView = 'registro';
-    }, 1000);
+  
   }
 
   public headerItems = [
