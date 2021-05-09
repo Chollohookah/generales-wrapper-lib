@@ -91,13 +91,13 @@
               />
             </form>
             <ng-container *ngIf="estadoForm != 'seteandoNuevaPass'">
-              <p
+              <span
                 class="forgot-password-link pointer"
                 *ngIf="estadoForm != 'olvidada'"
                 (click)="estadoForm = 'olvidada'"
               >
                 Contraseña olvidada?
-              </p>
+            </span>
 
               <p
                 class="login-card-footer-text"
@@ -105,7 +105,7 @@
                 *ngIf="estadoForm == 'login'"
               >
                 No tienes una cuenta?
-                <a href="#!" class="text-reset">Registrare aqui</a>
+                <span class="text-reset">Registrare aqui</span>
               </p>
 
               <p
@@ -114,7 +114,7 @@
                 *ngIf="estadoForm == 'registro' || estadoForm == 'olvidada'"
               >
                 Ya tienes una cuenta?
-                <a href="#!" class="text-reset">Accede con ella</a>
+                <span class="text-reset">Accede con ella</span>
               </p>
 
               <nav class="login-card-footer-nav">
