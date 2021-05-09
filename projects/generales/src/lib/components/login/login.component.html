@@ -2,12 +2,12 @@
   <div class="container">
     <div class="card login-card">
       <div class="row no-gutters">
-        <div class="col-md-5">
-          <img src="{{ leftImageURL }}" alt="login" class="login-card-img" />
+        <div class="col-md-5 wrapperImgLeft">
+          <img src="{{ leftImageURL }}" alt="login" class="login-card-img" *ngIf="leftImageURL"/>
         </div>
         <div class="col-md-7">
           <div class="card-body">
-            <div class="brand-wrapper">
+            <div class="brand-wrapper" *ngIf="logoImageURL">
               <img src="{{ logoImageURL }}" alt="logo" class="logo" />
             </div>
             <p class="login-card-description">{{ obtainTitleLabel() }}</p>
