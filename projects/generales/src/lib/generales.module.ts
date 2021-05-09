@@ -53,6 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PrivacyTermsComponent } from './components/privacy-terms/privacy-terms.component';
 import { TermsUseComponent } from './components/terms-use/terms-use.component';
 import { GenericDialogComponent } from './components/generic-dialog/generic-dialog.component';
+import { MaterialElevatorDirective } from './directivas/material-elevator.directive';
 const declaredAndExported = [
   GeneralesComponent,
   LoginComponent,
@@ -75,6 +76,7 @@ const declaredAndExported = [
   BlockListComponent,
   PrivacyTermsComponent,
   TermsUseComponent,
+  MaterialElevatorDirective
 ];
 
 @NgModule({
