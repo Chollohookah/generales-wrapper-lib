@@ -11,6 +11,7 @@ export interface HeaderItems {
 })
 export class HeaderComponent implements OnInit {
   @Input() headerItems: Array<HeaderItems> = [];
+  @Input() selectedBlock: number = -1;
   @Output() public sidenavToggle = new EventEmitter();
   @Output() blockCliked = new EventEmitter<HeaderItems>();
 

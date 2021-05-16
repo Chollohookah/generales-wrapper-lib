@@ -8,6 +8,7 @@
     <div class="headerItemsWrapper">
       <lib-block-list
         [blocks]="headerItems"
+        [selectedBlock]="selectedBlock"
         (blockClicked)="blockCliked.emit($event)"
       ></lib-block-list>
 
