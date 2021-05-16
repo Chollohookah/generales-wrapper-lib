@@ -54,6 +54,7 @@ import { PrivacyTermsComponent } from './components/privacy-terms/privacy-terms.
 import { TermsUseComponent } from './components/terms-use/terms-use.component';
 import { GenericDialogComponent } from './components/generic-dialog/generic-dialog.component';
 import { MaterialElevatorDirective } from './directivas/material-elevator.directive';
+import { PulsatingCircleComponent } from './components/pulsating-circle/pulsating-circle.component';
 const declaredAndExported = [
   GeneralesComponent,
   LoginComponent,
@@ -76,6 +77,7 @@ const declaredAndExported = [
   BlockListComponent,
   PrivacyTermsComponent,
   TermsUseComponent,
+  PulsatingCircleComponent,
   MaterialElevatorDirective
 ];
 

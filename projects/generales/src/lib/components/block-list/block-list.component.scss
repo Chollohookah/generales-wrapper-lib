@@ -7,6 +7,17 @@
   cursor: pointer;
 }
 
+.wrapper-img-txt {
+  padding: 10px 0px;
+  position: relative;
+  lib-pulsating-circle {
+    transform: scale(0.5);
+    position: absolute;
+    right: 15px;
+    overflow: visible;
+  }
+}
+
 .blockItem-row {
   padding: 5px 10px;
   width: 100%;

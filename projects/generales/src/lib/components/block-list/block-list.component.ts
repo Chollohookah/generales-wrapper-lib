@@ -10,10 +10,12 @@ import { HeaderItems } from '../header/header.component';
 export class BlockListComponent implements OnInit {
   @Input() blocks: Array<HeaderItems> = [];
   @Input() inSideNav: boolean = false;
+  @Input() selectedBlock: number = -1;
   @Output() blockClicked = new EventEmitter<HeaderItems>();
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   public emitSelected(selectHeaderItem: HeaderItems) {
     this.blockClicked.emit(selectHeaderItem);
