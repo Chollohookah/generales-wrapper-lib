@@ -5,6 +5,7 @@ import {
   ComparadorHookasApi,
   AnimationControllerService,
   LoginComponent,
+  ButtonActionFunction,
 } from 'projects/generales/src/lib';
 import { cloneDeep } from 'lodash';
 import { FabButtonWithItems } from 'projects/generales/src/lib/components/fab-button-with-items/fab-button-with-items.component';
@@ -30,6 +31,11 @@ export class AppComponent {
   ];
 
   public actualView = 'login';
+  public onClickCallbackFn: ButtonActionFunction = {
+    function: () => {},
+    type: 'async',
+    succesMessage: 'Whoop yo ass',
+  };
 
   constructor(
     private animationController: AnimationControllerService,

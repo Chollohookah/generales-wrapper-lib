@@ -3,7 +3,12 @@
     <input type="email" id="email" formControlName="email" />
     <label for="email">Correo electronico</label>
     <button id="button">
-      <span [ngClass]="{ 'spinner-border': loadingAsync }"> {{ !loadingAsync ? "OK" : "" }}</span>
+      <span
+        [ngClass]="{ 'spinner-border': loadingAsync }"
+        [ngStyle]="{ color: 'white' }"
+      >
+        {{ !loadingAsync ? "OK" : "" }}</span
+      >
     </button>
   </form>
 </div>

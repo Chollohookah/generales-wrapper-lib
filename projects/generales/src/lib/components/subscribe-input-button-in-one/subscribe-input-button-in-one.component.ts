@@ -15,7 +15,8 @@ export interface ButtonActionFunction {
 })
 export class SubscribeInputButtonInOneComponent
   extends BasicAlertcomponent
-  implements OnInit {
+  implements OnInit
+{
   public rootElement: HTMLElement;
   public emailElement: HTMLElement;
   public buttonElement: HTMLElement;
@@ -45,6 +46,14 @@ export class SubscribeInputButtonInOneComponent
       if (this.buttonElement) {
         this.buttonElement.addEventListener('click', async (e) => {
           e.preventDefault();
+          if (!this.formGroup.valid) {
+            this.alertHappen.emit({
+              title: 'Incorrecto',
+              desc: 'Los valores introducidos no son un correo electronico',
+              type: 'error',
+            });
+            console.log('emitimos');
+          }
           if (this.formGroup.valid && !this.workflowTerminado) {
             if (this.onClickCallback) {
               if (this.onClickCallback.type == 'async') {
