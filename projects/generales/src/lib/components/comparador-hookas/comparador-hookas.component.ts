@@ -42,10 +42,12 @@ export interface ComparadorHookasApi {
 })
 export class ComparadorHookasComponent
   extends BasicAlertcomponent
-  implements OnInit {
+  implements OnInit
+{
   @Input() inputModel: ComparadorHookasInputModel;
   @Input() APIcomms: ComparadorHookasApi;
-  public tradeMarksWithModelsSelectores: Array<ConfiguracionFiltrosAvanzadosMarcas> = [];
+  public tradeMarksWithModelsSelectores: Array<ConfiguracionFiltrosAvanzadosMarcas> =
+    [];
   public tagsChips: FiltrosAvanzadosChipPicker;
   public priceSlider: SliderComponentProps;
   public checks: Array<ChecksProps>;
@@ -91,7 +93,8 @@ export class ComparadorHookasComponent
       'ordenarPrecio',
       this.tipoOrdenacion
     );
-    let res: EnvioHookasFiltradas = await this.hookaService.realizarFiltroNoWorker();
+    let res: EnvioHookasFiltradas =
+      await this.hookaService.realizarFiltroNoWorker();
     this.cambioPaginaPaginador(res.confPaginador as any, res.resultadoFiltraje);
     this.changeDetectorRef.markForCheck();
   }
@@ -108,9 +111,8 @@ export class ComparadorHookasComponent
     this.hookaService.cachimbas = cloneDeep(
       specificArray ? specificArray : this.hookaService.copiaCachimbas
     );
-    this.hookaService.cachimbasSliced = (specificArray
-      ? specificArray
-      : this.hookaService.copiaCachimbas
+    this.hookaService.cachimbasSliced = (
+      specificArray ? specificArray : this.hookaService.copiaCachimbas
     ).slice(punteroInicial, punteroMAximoArray);
 
     this.changeDetectorRef.markForCheck();
@@ -135,7 +137,7 @@ export class ComparadorHookasComponent
               nombre: entry.name,
               value: entry.id,
               image: entry.logo,
-              numberItems: entry.data.length,
+              numberItems: entry.data?.length || 0,
             };
           });
           let res = data.reduce((prev, current, index) => {
@@ -164,7 +166,8 @@ export class ComparadorHookasComponent
           this.hookaService.copiaCachimbas = cloneDeep(
             this.hookaService.cachimbas
           );
-          this.hookaService.cachimbasSliced.length = this.hookaService.MAX_POR_PAGINA;
+          this.hookaService.cachimbasSliced.length =
+            this.hookaService.MAX_POR_PAGINA;
           this.obtainMetadataFromHookas(this.hookaService.cachimbas);
           this.changeDetectorRef.markForCheck();
         },
@@ -194,9 +197,8 @@ export class ComparadorHookasComponent
   }
 
   public obtainMetadataFromHookas(hookas: Array<HookasWithSiteMetadata>) {
-    this.tradeMarksWithModelsSelectores = this.hookaService.obtainTradeMarkAndModel(
-      hookas
-    );
+    this.tradeMarksWithModelsSelectores =
+      this.hookaService.obtainTradeMarkAndModel(hookas);
     this.tagsChips = this.hookaService.obtainTagsFromHookas(hookas);
     this.priceSlider = this.hookaService.obtainMininumAndMaxinumPrice(hookas);
     this.checks = this.hookaService.returnChecks(hookas);
