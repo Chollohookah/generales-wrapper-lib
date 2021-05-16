@@ -7,6 +7,7 @@
     </div>
     <div class="headerItemsWrapper">
       <lib-block-list
+        class="d-sm-block d-none"
         [blocks]="headerItems"
         [selectedBlock]="selectedBlock"
         (blockClicked)="blockCliked.emit($event)"
