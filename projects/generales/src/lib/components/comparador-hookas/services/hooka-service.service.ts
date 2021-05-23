@@ -16,6 +16,7 @@ import { HookasWithSiteMetadata } from '../interfaces/RelationSiteHooka';
 import { InlineWorker } from '../classes/InlineWorker';
 import { isGoodTag } from '../../../functions/functions';
 import { SliderComponentProps } from '../../slider/slider.component';
+import { Hooka } from '../interfaces/ModeloHookasBack';
 export type ActualItemTypes =
   | 'accesorio'
   | 'cachimba'
@@ -60,7 +61,7 @@ export class HookaService {
     etiquetasSeleccionadas: [],
     precioMin: 0,
     precioMax: 0,
-    ocultarAgotados: false,
+    ocultarAgotados: true,
     mostrarSoloOfertas: false,
     mostrarListaSeguimiento: false,
     ordenarPrecio: 'ASC',
@@ -74,173 +75,14 @@ export class HookaService {
   public MAX_POR_PAGINA_POSIBILIDADES = [5, 25, this.MAX_POR_PAGINA, 100];
   public refrescarFiltrosAvanzados: Subject<void> = new Subject();
   public filterValuesChanged: Subject<FiltrosAplicadosObjModel> = new Subject();
-  public changedTypeItemToLoad: BehaviorSubject<ActualItemTypes> = new BehaviorSubject(
-    null
-  );
+  public changedTypeItemToLoad: BehaviorSubject<ActualItemTypes> =
+    new BehaviorSubject(null);
   public latestValueType: ActualItemTypes = 'cachimba';
   constructor(private cookieService: CookieService) {
     this.changedTypeItemToLoad.subscribe((data) => {
       if (data) {
         this.latestValueType = data;
       }
-    });
-  }
-
-  public realizarFiltro(): Promise<EnvioHookasFiltradas> {
-    return new Promise((resolve, reject) => {
-      const worker = new InlineWorker(() => {
-        const filterHookas = (
-          busqueda: FiltrosAplicadosObjModel,
-          todasCachimbas: Array<HookasWithSiteMetadata>,
-          objetoCookies: any
-        ) => {
-          let res = JSON.parse(JSON.stringify(todasCachimbas));
-          if (busqueda.inputValue && busqueda.inputValue != '') {
-            res = res.filter((hooka) => {
-              let tradeMarkAndModelConcat = (
-                hooka.marca + hooka.modelo
-              ).toLowerCase();
-              return tradeMarkAndModelConcat.includes(
-                busqueda.inputValue.toLowerCase()
-              );
-            });
-          }
-          //Filtro agotados
-          if (
-            busqueda.ocultarAgotados != undefined &&
-            busqueda.ocultarAgotados === true
-          ) {
-            res = res.filter((entry) => entry.agotado == false);
-          }
-          //Filtro solo ofertas
-          if (
-            busqueda.mostrarSoloOfertas != undefined &&
-            busqueda.mostrarSoloOfertas == true
-          ) {
-            res = res.filter((entry) => entry.precioRebajado != null);
-          }
-          if (
-            busqueda.mostrarListaSeguimiento != undefined &&
-            busqueda.mostrarListaSeguimiento == true
-          ) {
-            let cookiesKeys = Object.keys(objetoCookies);
-            res = res.filter((entryHooka) => {
-              let resBusqueda = cookiesKeys.find((entry) => {
-                if (
-                  entry.includes('savedHooka') &&
-                  objetoCookies[entry] === entryHooka.linkProducto
-                ) {
-                  return entry;
-                }
-                return null;
-              });
-              if (resBusqueda) return true;
-              return false;
-            });
-          }
-          //Filtro marca
-          if (busqueda.marca && busqueda.marca != '') {
-            res = res.filter((entry) =>
-              entry.marca.toLowerCase().includes(busqueda.marca.toLowerCase())
-            );
-          }
-          //Filtro modelo
-          if (busqueda.modelo && busqueda.modelo != '') {
-            res = res.filter((entry) =>
-              entry.modelo.toLowerCase().includes(busqueda.modelo.toLowerCase())
-            );
-          }
-
-          //Filtro proveedor
-          if (busqueda.proveedor && busqueda.proveedor != '') {
-            res = res.filter((entry) => {
-              return entry.idCompany == busqueda.proveedor;
-            });
-          }
-
-          //Filtro etiquetas seleccionadas
-          if (
-            busqueda.etiquetasSeleccionadas &&
-            busqueda.etiquetasSeleccionadas.length > 0
-          ) {
-            res = res.filter((entry) =>
-              entry.etiquetas.some((entry) =>
-                busqueda.etiquetasSeleccionadas
-                  .map((entry) => entry.toLowerCase())
-                  .includes(entry.toLowerCase())
-              )
-            );
-          }
-          //Filtro precios (rango)
-          if (busqueda.precioMax && busqueda.precioMin) {
-            res = res.filter((entry) => {
-              entry.precioOriginal = entry.precioOriginal as number;
-              if (entry.precioOriginal && Number(entry.precioOriginal)) {
-                let precioCachimba = Number(entry.precioOriginal);
-                let precioMin = Number(busqueda.precioMin);
-                let precioMax = Number(busqueda.precioMax);
-                return precioCachimba >= precioMin &&
-                  precioCachimba <= precioMax
-                  ? true
-                  : false;
-              }
-              return false;
-            });
-          }
-          //ORDENACIONES
-          if (busqueda.ordenarPrecio) {
-            if (busqueda.ordenarPrecio == 'ASC') {
-              res = res.sort((entry, entry2) => {
-                let precioActualA = entry.precioOriginal as number;
-                let precioActualB = entry2.precioOriginal as number;
-                return precioActualA - precioActualB;
-              });
-            } else if (busqueda.ordenarPrecio == 'DESC') {
-              res = res.sort((entry, entry2) => {
-                let precioActualB = entry2.precioOriginal as number;
-                let precioActualA = entry.precioOriginal as number;
-                return precioActualB - precioActualA;
-              });
-            }
-          }
-          // @ts-ignore
-          this.postMessage({
-            filtradas: res,
-          });
-        };
-
-        // @ts-ignore
-        this.onmessage = (evt) => {
-          filterHookas(
-            evt.data.busqueda,
-            evt.data.allShisha,
-            evt.data.objetoCookies
-          );
-        };
-      });
-
-      worker.postMessage({
-        busqueda: this.filtrosAplicados,
-        allShisha: cloneDeep(this.copiaCachimbas),
-        objetoCookies: this.cookieService.getAll(),
-      });
-
-      let subscription = worker.onmessage().subscribe((data) => {
-        resolve({
-          confPaginador: { pageIndex: 0, pageSize: this.MAX_POR_PAGINA },
-          resultadoFiltraje: data.data.filtradas,
-        });
-        setTimeout(() => {
-          this.refrescarFiltrosAvanzados.next();
-        }, 0);
-        subscription.unsubscribe();
-        worker.terminate();
-      });
-
-      let subscription2 = worker.onerror().subscribe((data) => {
-        reject(data);
-        subscription2.unsubscribe();
-      });
     });
   }
 
@@ -328,25 +170,36 @@ export class HookaService {
       {
         id: 'ocultarAgotados',
         texto: 'Ocultar agotados',
-        valor: false,
+        valor: this._filtrosAplicados.ocultarAgotados,
         disabled: false,
       },
       {
         id: 'mostrarSoloOfertas',
         texto: 'Mostrar solo ofertas',
-        valor: false,
+        valor: this._filtrosAplicados.mostrarSoloOfertas,
         disabled: false,
       },
       {
         id: 'mostrarListaSeguimiento',
         texto: 'Mostrar solo favoritos',
-        valor: false,
+        valor: this._filtrosAplicados.mostrarListaSeguimiento,
         disabled: false,
       },
     ];
   }
 
-  public realizarFiltroNoWorker(): Promise<EnvioHookasFiltradas> {
+  public async setInitialData(data: Array<HookasWithSiteMetadata>) {
+    let filteredData = await this.realizarFiltroNoWorker(data);
+    this.cachimbas = filteredData.resultadoFiltraje;
+    this.cachimbasSliced = cloneDeep(this.cachimbas);
+    this.copiaCachimbas = cloneDeep(this.cachimbas);
+    this.cachimbasSliced.length = this.MAX_POR_PAGINA;
+    return filteredData;
+  }
+
+  public realizarFiltroNoWorker(
+    specificArrayData?: Array<HookasWithSiteMetadata>
+  ): Promise<EnvioHookasFiltradas> {
     return new Promise((resolve, reject) => {
       const filterHookas = (
         busqueda: FiltrosAplicadosObjModel,
@@ -470,7 +323,9 @@ export class HookaService {
 
       filterHookas(
         this.filtrosAplicados,
-        cloneDeep(this.copiaCachimbas),
+        specificArrayData
+          ? cloneDeep(specificArrayData)
+          : cloneDeep(this.copiaCachimbas),
         this.cookieService.getAll()
       ).then((data) => {
         resolve({

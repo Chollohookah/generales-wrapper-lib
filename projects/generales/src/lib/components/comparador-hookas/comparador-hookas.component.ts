@@ -129,7 +129,7 @@ export class ComparadorHookasComponent
         { headers: { typeItem: tipo } }
       )
       .subscribe(
-        (blockData: Block) => {
+        async (blockData: Block) => {
           this.peticionCargaHookasTerminada = true;
           let data = blockData.minedIds;
           this.providers = data.map((entry) => {
@@ -142,32 +142,18 @@ export class ComparadorHookasComponent
           });
           let res = data.reduce((prev, current, index) => {
             prev.push(
-              ...(current.data ? current.data : [])
-                .map((entry: HookasWithSiteMetadata) => {
-                  entry = this.eliminarImpurezas(entry);
+              ...(current.data ? current.data : []).map(
+                (entry: HookasWithSiteMetadata) => {
                   entry.logoCompany = current.logo;
                   entry.nameCompany = current.name;
                   entry.idCompany = current.id;
-                  entry.precioOriginal = Number(
-                    (entry.precioOriginal as string).replace(/,/g, '.')
-                  ) as any;
                   return entry;
-                })
-                .filter((filterEntry) => {
-                  return !Number.isNaN(filterEntry.precioOriginal);
-                })
+                }
+              )
             );
             return prev;
           }, []);
-          this.hookaService.cachimbas = res;
-          this.hookaService.cachimbasSliced = cloneDeep(
-            this.hookaService.cachimbas
-          );
-          this.hookaService.copiaCachimbas = cloneDeep(
-            this.hookaService.cachimbas
-          );
-          this.hookaService.cachimbasSliced.length =
-            this.hookaService.MAX_POR_PAGINA;
+          await this.hookaService.setInitialData(res);
           this.obtainMetadataFromHookas(this.hookaService.cachimbas);
           this.changeDetectorRef.markForCheck();
         },
@@ -181,19 +167,6 @@ export class ComparadorHookasComponent
           this.changeDetectorRef.markForCheck();
         }
       );
-  }
-
-  private eliminarImpurezas(entry: HookasWithSiteMetadata) {
-    if (entry.marca && entry.modelo) {
-      [entry.marca.toLowerCase(), '¡megapack!', '-'].forEach((regexValue) => {
-        let re = new RegExp(regexValue, 'g');
-        entry.modelo = entry.modelo.toLowerCase().replace(re, '').trim();
-      });
-      entry.modelo =
-        entry.modelo.substr(0, 1).toUpperCase() +
-        entry.modelo.substr(1, entry.modelo.length - 1);
-    }
-    return entry;
   }
 
   public obtainMetadataFromHookas(hookas: Array<HookasWithSiteMetadata>) {

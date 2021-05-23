@@ -146,7 +146,7 @@ export class AppComponent {
     },
   };
   public APIComunicator: ComparadorHookasApi = {
-    protocol: 'https',
+    protocol: 'http',
     host: 'localhost',
     port: 3000,
   };

@@ -53,16 +53,15 @@ export class FiltrosAvanzadosComponent implements OnInit {
   ) {
     if (data && data.length > 0) {
       this.configuracionFiltrosAvanzados.selectores.marcas = data;
-      this.configuracionesDeSelectores[
-        this.INDICE_MARCA
-      ].datos = this.obtainMarks();
+      this.configuracionesDeSelectores[this.returnIndexByIdKey('marca')].datos =
+        this.obtainMarks();
     }
   }
   @Input('setNewProviders') set setNewProviders(data: Array<ProviderModel>) {
     if (data) {
       this.configuracionFiltrosAvanzados.selectores.provider = data;
       this.configuracionesDeSelectores[
-        this.INDICE_PROVEEDORES
+        this.returnIndexByIdKey('proveedor')
       ].datos = data.map((entry) => {
         return {
           clave: entry.nombre,
@@ -105,11 +104,6 @@ export class FiltrosAvanzadosComponent implements OnInit {
     sliderPrecio: null,
     checks: [],
   };
-  public INDICE_MARCA: number = 0;
-  public INDICE_PROVEEDORES: number = 1;
-  public INDICE_MODELO: number = 2;
-
-  public INDICE_TAGS: number = 3;
   //Configuración selectores
   public configuracionesDeSelectores: Array<ConfiguracionComponentes> = [
     //Marcas
@@ -118,17 +112,17 @@ export class FiltrosAvanzadosComponent implements OnInit {
       datos: [],
       configuracionInicial: this.obtainMarksConfig(),
     },
-    //Proveedores
-    {
-      type: 'selector',
-      datos: [],
-      configuracionInicial: this.obtainProvidersConfig(),
-    },
     //Modelo
     {
       type: 'selector',
       datos: [],
       configuracionInicial: this.obtainModelConfig(),
+    },
+    //Proveedores
+    {
+      type: 'selector',
+      datos: [],
+      configuracionInicial: this.obtainProvidersConfig(),
     },
   ];
 
@@ -143,23 +137,27 @@ export class FiltrosAvanzadosComponent implements OnInit {
         keyId: 'marca',
         callback: async (marca: string) => {
           this.configuracionesDeSelectores[
-            this.INDICE_MODELO
+            this.returnIndexByIdKey('modelo')
           ].datos = this.generateModelsSelectorFromTradeMark(marca);
           this.configuracionesDeSelectores[
-            this.INDICE_MODELO
+            this.returnIndexByIdKey('modelo')
           ].configuracionInicial.disabled = false;
           this.hookaservice.setFilterPropertyValue('modelo', '');
-          let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltroNoWorker();
+          let res: EnvioHookasFiltradas =
+            await this.hookaservice.realizarFiltroNoWorker();
           this.actualizarDesdeSelectores.emit(res);
         },
       },
     ];
 
-    this.configuracionesDeSelectores[
-      this.INDICE_MARCA
-    ].datos = this.obtainMarks();
+    this.configuracionesDeSelectores[this.returnIndexByIdKey('marca')].datos =
+      this.obtainMarks();
   }
-
+  private returnIndexByIdKey(idKey: string) {
+    return this.configuracionesDeSelectores.findIndex(
+      (entry) => entry.configuracionInicial.idKey === idKey
+    );
+  }
   public async receiveChangedValue(claveValor: ClaveValorModel) {
     if (
       this.hookaservice.filtrosAplicados[claveValor.clave] !== claveValor.valor
@@ -176,7 +174,8 @@ export class FiltrosAvanzadosComponent implements OnInit {
         claveValor.clave as any,
         claveValor.valor
       );
-      let res: EnvioHookasFiltradas = await this.hookaservice.realizarFiltroNoWorker();
+      let res: EnvioHookasFiltradas =
+        await this.hookaservice.realizarFiltroNoWorker();
       this.actualizarDesdeSelectores.emit(res);
     }
   }
@@ -212,9 +211,10 @@ export class FiltrosAvanzadosComponent implements OnInit {
     return marcas;
   }
   private generateModelsSelectorFromTradeMark(trademark: string) {
-    let busquedaModelos = this.configuracionFiltrosAvanzados.selectores.marcas.find(
-      (entry) => entry.marca.valor === trademark
-    );
+    let busquedaModelos =
+      this.configuracionFiltrosAvanzados.selectores.marcas.find(
+        (entry) => entry.marca.valor === trademark
+      );
     if (busquedaModelos) {
       return busquedaModelos.modelos;
     }
